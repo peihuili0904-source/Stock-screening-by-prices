@@ -90,7 +90,7 @@ p { margin: 0; }
 .band { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 18px 16px 14px; display: grid; gap: 14px; }
 .band-plot { position: relative; display: grid; gap: 16px; padding-top: 22px; }
 .band-row { display: grid; gap: 5px; position: relative; z-index: 1; }
-.band-row .lbl { font-size: 13px; font-weight: 600; }
+.band-row .lbl { font-size: 13px; font-weight: 600; width: fit-content; max-width: 100%; background: var(--surface); padding-right: 6px; position: relative; z-index: 2; }
 .band-row .lbl span { font-weight: 400; color: var(--muted); font-size: 12px; }
 .track { position: relative; height: 26px; }
 .seg { position: absolute; height: 10px; border-radius: 3px; }
@@ -104,6 +104,8 @@ p { margin: 0; }
 .vline.now b { color: var(--up); }
 .axis { position: relative; height: 16px; border-top: 1px solid var(--line); }
 .axis span { position: absolute; top: 2px; transform: translateX(-50%); font-size: 11px; color: var(--muted); }
+.axis span:first-child { transform: none; }
+.axis span:last-child { transform: translateX(-100%); }
 .band-key { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 12px; color: var(--muted); }
 .band-key i { display: inline-block; width: 18px; height: 7px; border-radius: 2px; margin-right: 6px; vertical-align: 1px; }
 
@@ -153,6 +155,8 @@ details[open] summary .chev { transform: rotate(90deg); }
 .v-part { background: var(--warn-soft); color: var(--warn); }
 .v-ok { background: var(--flat-soft); color: var(--ok); }
 .fc-item .ev { font-size: 13px; color: var(--muted); }
+.src { color: var(--accent); text-decoration: none; font-weight: 500; margin-right: 8px; }
+.src:hover, .src:focus-visible { text-decoration: underline; }
 .more summary { grid-template-columns: 1fr auto; font-size: 14px; color: var(--muted); }
 
 footer { font-size: 12px; color: var(--muted); display: grid; gap: 4px; }
@@ -169,128 +173,663 @@ footer { font-size: 12px; color: var(--muted); display: grid; gap: 4px; }
 <!-- 매일 이 JSON만 바꿔서 다시 게시한다. -->
 <script type="application/json" id="brief-data">
 {
-  "date": "2026-10-26",
-  "dow": "월",
-  "headline": "이벤트가 몰린 주, 증권사 대부분은 '확인하고 사자'",
-  "counts": { "reports": 15, "market": 5, "strategy": 10, "brokers": 11 },
-  "points": [
-    { "title": "이번 주는 슈퍼위크. 지금 비중을 늘리자는 곳은 없다",
-      "body": "하이닉스·삼성전자·빅테크 실적과 FOMC, 다음 주 美 중간선거가 겹쳤다. 거래대금은 12조원으로 20일 평균(20.1조원)의 60%까지 줄었다.",
-      "who": "유안타 · 신한 · SK · LS · 대신 · DB" },
-    { "title": "하락의 원인은 AI 수요가 아니라 돈줄",
-      "body": "투자를 늘리면 현금흐름 적자, 줄이면 성장 의심. 메타가 대표 사례다. 유진은 2027년 빅테크 설비투자의 70% 이상을 빚으로 조달해야 한다고 본다.",
-      "who": "유진 · SK 조준기 · 신한 · LS · DB" },
-    { "title": "바닥이냐 한 번 더냐. 중기적으로는 2027년 반등이 다수",
-      "body": "LS·현대차는 신용 청산과 숏 포지션이 정점이라 바닥에 가깝다고 본다. 유진은 실적이 꺾이면 10–20% 더 빠질 수 있다고 경고한다.",
-      "who": "LS · 현대차 · 유진 · 대신 · 하나" }
-  ],
-  "stance": {
-    "bull":    [["대신", "이경민"], ["하나", "이재만"], ["현대차", "김재승"], ["J.P. Morgan", "유럽 전략"]],
-    "neutral": [["유안타", "이재원"], ["신한", "강진혁 ×2"], ["SK", "조준기"], ["SK", "나승두"], ["LS", "정다운"], ["미래에셋", "Flow"], ["DB", "Moon Shot"], ["J.P. Morgan", "선거 테마"]],
-    "bear":    [["유진", "허재환"], ["미래에셋", "김주연"]]
+ "date": "2026-10-26",
+ "dow": "월",
+ "headline": "이벤트가 몰린 주, 증권사 대부분은 '확인하고 사자'",
+ "counts": {
+  "reports": 15,
+  "market": 5,
+  "strategy": 10,
+  "brokers": 11
+ },
+ "points": [
+  {
+   "title": "이번 주는 슈퍼위크. 지금 비중을 늘리자는 곳은 없다",
+   "body": "하이닉스·삼성전자·빅테크 실적과 FOMC, 다음 주 美 중간선거가 겹쳤다. 거래대금은 12조원으로 20일 평균(20.1조원)의 60%까지 줄었다.",
+   "who": "유안타 · 신한 · SK · LS · 대신 · DB"
   },
-  "stanceCounts": { "bull": 4, "neutral": 9, "bear": 2 },
-  "band": {
-    "min": 4800, "max": 9400, "ticks": [5000, 6000, 7000, 8000, 9000],
-    "lines": [
-      { "v": 5469, "label": "10/26 종가 5,469", "now": true },
-      { "v": 9115, "label": "6/22 고점 9,115" }
+  {
+   "title": "하락의 원인은 AI 수요가 아니라 돈줄",
+   "body": "투자를 늘리면 현금흐름 적자, 줄이면 성장 의심. 메타가 대표 사례다. 유진은 2027년 빅테크 설비투자의 70% 이상을 빚으로 조달해야 한다고 본다.",
+   "who": "유진 · SK 조준기 · 신한 · LS · DB"
+  },
+  {
+   "title": "바닥이냐 한 번 더냐. 중기적으로는 2027년 반등이 다수",
+   "body": "LS·현대차는 신용 청산과 숏 포지션이 정점이라 바닥에 가깝다고 본다. 유진은 실적이 꺾이면 10–20% 더 빠질 수 있다고 경고한다.",
+   "who": "LS · 현대차 · 유진 · 대신 · 하나"
+  }
+ ],
+ "stance": {
+  "bull": [
+   [
+    "대신",
+    "이경민"
+   ],
+   [
+    "하나",
+    "이재만"
+   ],
+   [
+    "현대차",
+    "김재승"
+   ],
+   [
+    "J.P. Morgan",
+    "유럽 전략"
+   ]
+  ],
+  "neutral": [
+   [
+    "유안타",
+    "이재원"
+   ],
+   [
+    "신한",
+    "강진혁 ×2"
+   ],
+   [
+    "SK",
+    "조준기"
+   ],
+   [
+    "SK",
+    "나승두"
+   ],
+   [
+    "LS",
+    "정다운"
+   ],
+   [
+    "미래에셋",
+    "Flow"
+   ],
+   [
+    "DB",
+    "Moon Shot"
+   ],
+   [
+    "J.P. Morgan",
+    "선거 테마"
+   ]
+  ],
+  "bear": [
+   [
+    "유진",
+    "허재환"
+   ],
+   [
+    "미래에셋",
+    "김주연"
+   ]
+  ]
+ },
+ "stanceCounts": {
+  "bull": 4,
+  "neutral": 9,
+  "bear": 2
+ },
+ "debates": [
+  {
+   "topic": "지금이 바닥인가",
+   "a": {
+    "who": "LS 정다운 · 현대차 김재승",
+    "view": "반대매매와 헤지펀드 숏이 정점. 이번 주 저점 통과 가능성이 높다."
+   },
+   "b": {
+    "who": "유진 허재환",
+    "view": "급락이 멈춰도 본격 상승은 아니다. 경기·실적이 꺾이면 10–20% 더 빠진다."
+   },
+   "why": "앞쪽은 수급 지표를, 뒤쪽은 AI 자금조달 구조를 본다. 단기 반등 후 재조정이면 둘 다 맞을 수 있다."
+  },
+  {
+   "topic": "반도체를 지금 살 것인가",
+   "a": {
+    "who": "대신 · 하나 · 유안타",
+    "view": "최선호, 또는 포트폴리오의 Core. 하이닉스 12MF PER 3배로 극단적 저평가."
+   },
+   "b": {
+    "who": "DB",
+    "view": "AI 서비스 단가가 떨어지는 중(딥시크 1/40). 토큰 지출이 반등하기 전까지 신중."
+   },
+   "why": "이익과 밸류에이션을 보느냐, AI 수익모델을 보느냐의 차이."
+  },
+  {
+   "topic": "2027년 KOSPI 고점",
+   "a": {
+    "who": "현대차 김재승",
+    "view": "연준 인상이 끝나는 2027년 6월 이후 9,000 재도전."
+   },
+   "b": {
+    "who": "대신 이경민",
+    "view": "상단 8,200. 2Q27 7,700 이상에서는 차익실현. 하반기엔 부채한도 리스크."
+   },
+   "why": "2027년 하반기를 금리 인하기로 보느냐, 정치·재정 리스크 구간으로 보느냐."
+  }
+ ],
+ "calendar": [
+  {
+   "d": "10/27",
+   "w": "화",
+   "items": [
+    [
+     "한국 3분기 GDP",
+     "08:00 · 예상 QoQ 0.7%"
     ],
-    "rows": [
-      { "who": "대신", "note": "연말 기본 7,100", "q": [5200, 6700], "y": [5200, 8200] },
-      { "who": "DB", "note": "분기별 밴드", "q": [5000, 7300], "y": [5000, 8000] },
-      { "who": "현대차", "note": "지지 5,262 · 2027 하반기 9,000 시도", "qDot": 5262, "y": [7000, 9000] },
-      { "who": "골드만삭스", "note": "미래에셋 인용 · 12개월 목표", "yDot": 9000 }
+    [
+     "이스라엘 총선",
+     ""
     ]
+   ]
   },
-  "debates": [
-    { "topic": "지금이 바닥인가",
-      "a": { "who": "LS 정다운 · 현대차 김재승", "view": "반대매매와 헤지펀드 숏이 정점. 이번 주 저점 통과 가능성이 높다." },
-      "b": { "who": "유진 허재환", "view": "급락이 멈춰도 본격 상승은 아니다. 경기·실적이 꺾이면 10–20% 더 빠진다." },
-      "why": "앞쪽은 수급 지표를, 뒤쪽은 AI 자금조달 구조를 본다. 단기 반등 후 재조정이면 둘 다 맞을 수 있다." },
-    { "topic": "반도체를 지금 살 것인가",
-      "a": { "who": "대신 · 하나 · 유안타", "view": "최선호, 또는 포트폴리오의 Core. 하이닉스 12MF PER 3배로 극단적 저평가." },
-      "b": { "who": "DB", "view": "AI 서비스 단가가 떨어지는 중(딥시크 1/40). 토큰 지출이 반등하기 전까지 신중." },
-      "why": "이익과 밸류에이션을 보느냐, AI 수익모델을 보느냐의 차이." },
-    { "topic": "2027년 KOSPI 고점",
-      "a": { "who": "현대차 김재승", "view": "연준 인상이 끝나는 2027년 6월 이후 9,000 재도전." },
-      "b": { "who": "대신 이경민", "view": "상단 8,200. 2Q27 7,700 이상에서는 차익실현. 하반기엔 부채한도 리스크." },
-      "why": "2027년 하반기를 금리 인하기로 보느냐, 정치·재정 리스크 구간으로 보느냐." }
-  ],
-  "calendar": [
-    { "d": "10/27", "w": "화", "items": [["한국 3분기 GDP", "08:00 · 예상 QoQ 0.7%"], ["이스라엘 총선", ""]] },
-    { "d": "10/28", "w": "수", "key": true, "items": [["SK하이닉스 실적", "주주환원안 주목"], ["ECB 금리 결정", "SK 기준 · 동결 98%"]] },
-    { "d": "10/29", "w": "목", "key": true, "items": [["FOMC 결과", "03:00 · 동결 90%"], ["MSFT · 알파벳 실적", "새벽"], ["삼성전자 실적·컨콜", ""]] },
-    { "d": "10/30", "w": "금", "items": [["아마존 · 인텔 · 샌디스크 실적", "새벽"], ["BOJ 금리 결정", "동결 96%"], ["기아 실적", ""]] },
-    { "d": "11/03", "w": "화", "key": true, "items": [["美 중간선거", "개표 11/4 09:00부터"]] }
-  ],
-  "reports": [
-    { "s": "bear", "b": "유진투자증권", "a": "허재환", "c": "전략", "t": "자금쟁탈전의 부작용",
-      "one": "AI 급락은 성장 문제가 아니라 자금조달 문제. 실적이 꺾이면 10–20% 더 빠질 수 있다.",
-      "pts": ["2027년 빅테크 설비투자 1.2–1.5조 달러 중 70% 이상을 빚으로 조달해야 함", "하이닉스가 솔리다임 상장을 접은 뒤 반등한 것이 '희석 우려'의 반증", "대안: 수익성 대비 싼 반도체, 소비(미디어·호텔레저·소매)"] },
-    { "s": "bear", "b": "미래에셋증권", "a": "김주연", "c": "시황", "t": "지켜낼까 5,500",
-      "one": "외국인 매도에 5,500을 일시 이탈. 로봇·보안주만 강세.",
-      "pts": ["머스크 'AI 데이터센터는 소수 대기업 중심' 발언 뒤 반도체 약세", "골드만삭스, KOSPI 12개월 목표 9,000으로 25% 하향", "LIG D&A 방산업체 지정 취소 검토로 급락"] },
-    { "s": "neutral", "b": "유안타증권", "a": "이재원·김세빈", "c": "시황", "t": "앞으로 2주간 펼쳐질 깔딱고개",
-      "one": "문제는 매도 규모가 아니라 받아줄 매수 주체. 비중 확대는 이벤트를 확인한 뒤에.",
-      "pts": ["외국인 매도가 줄었는데도 KOSPI -1.5%", "원화 강세(1,320원대)가 이익 상향을 제한할 수 있음", "전략: 반도체 Core + 소부장·ESS"] },
-    { "s": "neutral", "b": "신한투자증권", "a": "강진혁", "c": "시황", "t": "선거-AI-FOMC 슈퍼위크",
-      "one": "선거·AI·FOMC가 한 주에 겹쳤다. MSFT를 뺀 빅테크는 현금흐름 적자로 자본 제약.",
-      "pts": ["브라질 대선, 이스라엘 총선, 美 중간선거 연속", "美 10월 제조업 PMI 56.0, 판매가격 상승률 4년 만에 최고", "로봇(로보티즈)·의료AI(루닛) 테마 강세"] },
-    { "s": "neutral", "b": "신한투자증권", "a": "강진혁", "c": "시황", "t": "거래대금 증발, 슈퍼위크 앞둔 경계",
-      "one": "거래대금 12조원, 20일 평균의 60%. 5,500이 저항선.",
-      "pts": ["방산·조선·원전 등 산업재가 역배열", "아마존·알파벳이 설비투자를 늘려 적자가 깊어지면 반응은 제한적", "하이닉스(28일)·삼성전자(29일) 주주환원안이 하방을 받칠지 확인"] },
-    { "s": "neutral", "b": "미래에셋증권", "a": "김석환·윤재홍", "c": "시황", "t": "Weekly Flow Monitor (10/19–23)",
-      "one": "외국인 주간 -1.4조원, 매도 규모는 줄었다. 반도체는 팔고 조선·건설은 샀다.",
-      "pts": ["외국인 SK하이닉스 -8,772억, 삼성전자 +8,072억", "외국인 코스피200 선물 -1조원", "개인은 10월 한국 주식형 ETF 5조원 순매수(대표지수·커버드콜)"] },
-    { "s": "neutral", "b": "SK증권", "a": "조준기", "c": "전략", "t": "불리한 2지선다",
-      "one": "투자를 늘려도 줄여도 벌을 받는 빅테크. 시장이 원하는 건 영업현금흐름이 투자보다 빨리 느는 그림.",
-      "pts": ["메타: 설비투자 상향 → 현금흐름 적자로 급락 / 테슬라: 하향 → 성장 의심", "KOSPI·KOSDAQ 20일 ADR 71%·76%로 바닥권", "수–금 이벤트 밀집, 시초가 갭 주의"] },
-    { "s": "neutral", "b": "SK증권", "a": "나승두", "c": "전략", "t": "중소형주, 디레버리징 속 코스닥 반등의 조건",
-      "one": "과거 반등 조건은 아직 미충족. 그래도 신용잔고가 연중 최저권이라 바닥은 다지는 중.",
-      "pts": ["코스닥 4월 1,200 → 10월 750, 고점 대비 약 -38%", "코스닥 신용잔고 7조원 밑, 고객예탁금 90조원(연중 최저)", "코스닥이 코스피보다 상대 매력 높음"] },
-    { "s": "neutral", "b": "LS증권", "a": "정다운", "c": "전략", "t": "바닥은, 더 이상 팔 사람이 없을 때 만들어진다",
-      "one": "반대매매와 숏 포지션이 정점. 이번 주 저점 통과 가능성이 높다.",
-      "pts": ["신용잔고 10/12 34.3조원 → 10/22 30.4조원", "반대매매 비율 10/14 6.6% → 10/22 1.0%", "11월 美 자사주 매입 재개(올해 승인 1.3조 달러)가 숏커버링 계기"] },
-    { "s": "neutral", "b": "DB증권", "a": "", "c": "시황", "t": "Moon Shot 11월호",
-      "one": "헤지펀드 포지션 정리는 11월 중순에 끝난다. 반도체는 신중, 가치·배당주를 추천.",
-      "pts": ["美 10년물 4.8%까지 반락 가능, 중기 추세 전환은 아님", "국내: 운송·보험·음식료·미디어", "해외: 선거 후 변동성 하락을 확인하고 S&P500 동일가중 분할 매수"] },
-    { "s": "neutral", "b": "J.P. Morgan", "a": "Lakos-Bujas 외", "c": "전략", "t": "Midterm Elections, Scenario Analysis, Baskets", "stale": "10/1 발간",
-      "one": "선거 시나리오별 종목 바스켓. 선거 전 변동성(VIX) 상승에 대비.",
-      "pts": ["베팅 확률: 민주당 하원 92%, 상원 63%(10/1 기준)", "AI 설비투자 모멘텀은 선거와 무관하게 유지", "반도체·소프트웨어·테크 하드웨어는 시나리오 무관"] },
-    { "s": "bull", "b": "대신증권", "a": "이경민", "c": "전략", "t": "美 중간선거 결과에 따른 KOSPI 전망과 대응 전략",
-      "one": "블루스윕·분점 확률 91%면 하우스 밴드 유지. 5,200–5,600에서 분할 매수.",
-      "pts": ["블루스윕 63% · 분점 28% · 레드스윕 8%", "KOSPI를 정하는 건 국내 이익: 2027E EPS +34%, PER 4.2배", "선거 무관 최선호: 반도체·조선·바이오"] },
-    { "s": "bull", "b": "하나증권", "a": "이재만·손일수", "c": "전략", "t": "2027년 주도주: 미국 이익 규모, 한국 새로운 시총 3위",
-      "one": "연말 반등은 삼성전자·하이닉스가 이끈다. 2027년 상반기 주도는 2차전지·IT하드웨어.",
-      "pts": ["2027년 하반기에는 제약바이오·자동차로 주도주 교체", "시총 3위 경쟁: LG엔솔·삼성전기 → 삼성바이오·현대차", "삼성전자 고점 대비 -40%, 과거 5번 평균 5개월간 +40% 반등"] },
-    { "s": "bull", "b": "현대차증권", "a": "김재승", "c": "전략", "t": "Strategy Weekly - 코스피, 결국 해낼 것이다",
-      "one": "바닥 형성 단계 진입 시도. 연준 인상이 끝나는 2027년 6월 이후 9,000 재도전.",
-      "pts": ["바닥 조건: 5,262 지지, 외국인 매도 완화, 대외 불확실성 완화", "KOSPI 10/2 7,003 → 10/23 5,550(-20.8%)", "시장이 2028년 메모리 이익을 믿는 시점이 재상승 시점"] },
-    { "s": "bull", "b": "J.P. Morgan", "a": "Matejka 외", "c": "전략", "t": "Equity Strategy: French positioning",
-      "one": "유가는 단기 부담이지만 금리 정점은 결국 호재. 경기민감주 약세는 6–12개월 매수 기회.",
-      "pts": ["프랑스 정치·재정 리스크는 선거(내년 4–6월)까지", "비프랑스 은행·내수주 비중 확대", "한국 12MF PER 3.8배, 연초 대비 -40%"] }
-  ],
-  "factcheck": {
-    "note": "오늘 05:30 외신 브리핑(FT·WSJ·Economist)이 Chrome 확장 미연결로 실패해 외신 대조는 못 했다. 아래는 리포트끼리 교차검증한 결과다.",
-    "flags": [
-      { "v": "bad", "claim": "미래에셋 Weekly: 주간 비차익 매매", "ev": "같은 리포트 p.1은 -3,400억원, p.2는 -5,933억원(추정치)." },
-      { "v": "part", "claim": "하이닉스 16조원 특별배당", "ev": "신한 Radar는 '부인', 신한 마감·유안타는 '미확정 공시', 미래에셋은 '추진 보도'. 공시 내용은 '검토 중, 미확정'에 가깝다." },
-      { "v": "part", "claim": "ECB 금리 결정일", "ev": "SK는 수요일(10/28) 저녁, 유안타는 10/29." },
-      { "v": "part", "claim": "10/26 외국인 KOSPI 순매도", "ev": "유안타 -6,946억원, 신한 -6,986억원. 집계 시점 차이로 보인다." }
+  {
+   "d": "10/28",
+   "w": "수",
+   "key": true,
+   "items": [
+    [
+     "SK하이닉스 실적",
+     "주주환원안 주목"
     ],
-    "ok": [
-      "KOSPI 10/26 종가 5,469 (신한·유안타)",
-      "KOSPI 6/22 고점 9,114 → 10/23 5,550 (대신·유진·현대차·LS)",
-      "연준 9/16 인상, 상단 4.00% (대신·JPM·하나·DB)",
-      "FOMC 10/27–28(미국), 결과 KST 10/29 03:00 (유안타·대신·SK)",
-      "하이닉스 10/28, 삼성전자 10/29 실적 (유안타·대신·SK·신한)",
-      "美 중간선거 11/3, 민주당 하원 91–92% (대신·DB·JPM)",
-      "美 10년물 4.96% 부근 (대신·JPM·유안타)"
-    ],
-    "unchecked": "이스라엘 총선, 룰라 4선, 키옥시아 차익 16조원, Anthropic IPO, 딥시크 이용료 1/40, APEC 11/18–19 등은 한 리포트에만 나와 외신 대조가 필요하다."
+    [
+     "ECB 금리 결정",
+     "SK 기준 · 동결 98%"
+    ]
+   ]
   },
-  "sources": "Google Drive '주식전략' 폴더 · 2026-10-26 업로드 PDF 15건"
+  {
+   "d": "10/29",
+   "w": "목",
+   "key": true,
+   "items": [
+    [
+     "FOMC 결과",
+     "03:00 · 동결 90%"
+    ],
+    [
+     "MSFT · 알파벳 실적",
+     "새벽"
+    ],
+    [
+     "삼성전자 실적·컨콜",
+     ""
+    ]
+   ]
+  },
+  {
+   "d": "10/30",
+   "w": "금",
+   "items": [
+    [
+     "아마존 · 인텔 · 샌디스크 실적",
+     "새벽"
+    ],
+    [
+     "BOJ 금리 결정",
+     "동결 96%"
+    ],
+    [
+     "기아 실적",
+     ""
+    ]
+   ]
+  },
+  {
+   "d": "11/03",
+   "w": "화",
+   "key": true,
+   "items": [
+    [
+     "美 중간선거",
+     "개표 11/4 09:00부터"
+    ]
+   ]
+  }
+ ],
+ "reports": [
+  {
+   "s": "bear",
+   "b": "유진투자증권",
+   "a": "허재환",
+   "c": "전략",
+   "t": "자금쟁탈전의 부작용",
+   "one": "AI 급락은 성장 문제가 아니라 자금조달 문제. 실적이 꺾이면 10–20% 더 빠질 수 있다.",
+   "pts": [
+    "2027년 빅테크 설비투자 1.2–1.5조 달러 중 70% 이상을 빚으로 조달해야 함",
+    "하이닉스가 솔리다임 상장을 접은 뒤 반등한 것이 '희석 우려'의 반증",
+    "대안: 수익성 대비 싼 반도체, 소비(미디어·호텔레저·소매)"
+   ]
+  },
+  {
+   "s": "bear",
+   "b": "미래에셋증권",
+   "a": "김주연",
+   "c": "시황",
+   "t": "지켜낼까 5,500",
+   "one": "외국인 매도에 5,500을 일시 이탈. 로봇·보안주만 강세.",
+   "pts": [
+    "머스크 'AI 데이터센터는 소수 대기업 중심' 발언 뒤 반도체 약세",
+    "골드만삭스, KOSPI 12개월 목표 9,000으로 25% 하향",
+    "LIG D&A 방산업체 지정 취소 검토로 급락"
+   ]
+  },
+  {
+   "s": "neutral",
+   "b": "유안타증권",
+   "a": "이재원·김세빈",
+   "c": "시황",
+   "t": "앞으로 2주간 펼쳐질 깔딱고개",
+   "one": "문제는 매도 규모가 아니라 받아줄 매수 주체. 비중 확대는 이벤트를 확인한 뒤에.",
+   "pts": [
+    "외국인 매도가 줄었는데도 KOSPI -1.5%",
+    "원화 강세(1,320원대)가 이익 상향을 제한할 수 있음",
+    "전략: 반도체 Core + 소부장·ESS"
+   ]
+  },
+  {
+   "s": "neutral",
+   "b": "신한투자증권",
+   "a": "강진혁",
+   "c": "시황",
+   "t": "선거-AI-FOMC 슈퍼위크",
+   "one": "선거·AI·FOMC가 한 주에 겹쳤다. MSFT를 뺀 빅테크는 현금흐름 적자로 자본 제약.",
+   "pts": [
+    "브라질 대선, 이스라엘 총선, 美 중간선거 연속",
+    "美 10월 제조업 PMI 56.0, 판매가격 상승률 4년 만에 최고",
+    "로봇(로보티즈)·의료AI(루닛) 테마 강세"
+   ]
+  },
+  {
+   "s": "neutral",
+   "b": "신한투자증권",
+   "a": "강진혁",
+   "c": "시황",
+   "t": "거래대금 증발, 슈퍼위크 앞둔 경계",
+   "one": "거래대금 12조원, 20일 평균의 60%. 5,500이 저항선.",
+   "pts": [
+    "방산·조선·원전 등 산업재가 역배열",
+    "아마존·알파벳이 설비투자를 늘려 적자가 깊어지면 반응은 제한적",
+    "하이닉스(28일)·삼성전자(29일) 주주환원안이 하방을 받칠지 확인"
+   ]
+  },
+  {
+   "s": "neutral",
+   "b": "미래에셋증권",
+   "a": "김석환·윤재홍",
+   "c": "시황",
+   "t": "Weekly Flow Monitor (10/19–23)",
+   "one": "외국인 주간 -1.4조원, 매도 규모는 줄었다. 반도체는 팔고 조선·건설은 샀다.",
+   "pts": [
+    "외국인 SK하이닉스 -8,772억, 삼성전자 +8,072억",
+    "외국인 코스피200 선물 -1조원",
+    "개인은 10월 한국 주식형 ETF 5조원 순매수(대표지수·커버드콜)"
+   ]
+  },
+  {
+   "s": "neutral",
+   "b": "SK증권",
+   "a": "조준기",
+   "c": "전략",
+   "t": "불리한 2지선다",
+   "one": "투자를 늘려도 줄여도 벌을 받는 빅테크. 시장이 원하는 건 영업현금흐름이 투자보다 빨리 느는 그림.",
+   "pts": [
+    "메타: 설비투자 상향 → 현금흐름 적자로 급락 / 테슬라: 하향 → 성장 의심",
+    "KOSPI·KOSDAQ 20일 ADR 71%·76%로 바닥권",
+    "수–금 이벤트 밀집, 시초가 갭 주의"
+   ]
+  },
+  {
+   "s": "neutral",
+   "b": "SK증권",
+   "a": "나승두",
+   "c": "전략",
+   "t": "중소형주, 디레버리징 속 코스닥 반등의 조건",
+   "one": "과거 반등 조건은 아직 미충족. 그래도 신용잔고가 연중 최저권이라 바닥은 다지는 중.",
+   "pts": [
+    "코스닥 4월 1,200 → 10월 750, 고점 대비 약 -38%",
+    "코스닥 신용잔고 7조원 밑, 고객예탁금 90조원(연중 최저)",
+    "코스닥이 코스피보다 상대 매력 높음"
+   ]
+  },
+  {
+   "s": "neutral",
+   "b": "LS증권",
+   "a": "정다운",
+   "c": "전략",
+   "t": "바닥은, 더 이상 팔 사람이 없을 때 만들어진다",
+   "one": "반대매매와 숏 포지션이 정점. 이번 주 저점 통과 가능성이 높다.",
+   "pts": [
+    "신용잔고 10/12 34.3조원 → 10/22 30.4조원",
+    "반대매매 비율 10/14 6.6% → 10/22 1.0%",
+    "11월 美 자사주 매입 재개(올해 승인 1.3조 달러)가 숏커버링 계기"
+   ]
+  },
+  {
+   "s": "neutral",
+   "b": "DB증권",
+   "a": "",
+   "c": "시황",
+   "t": "Moon Shot 11월호",
+   "one": "헤지펀드 포지션 정리는 11월 중순에 끝난다. 반도체는 신중, 가치·배당주를 추천.",
+   "pts": [
+    "美 10년물 4.8%까지 반락 가능, 중기 추세 전환은 아님",
+    "국내: 운송·보험·음식료·미디어",
+    "해외: 선거 후 변동성 하락을 확인하고 S&P500 동일가중 분할 매수"
+   ]
+  },
+  {
+   "s": "neutral",
+   "b": "J.P. Morgan",
+   "a": "Lakos-Bujas 외",
+   "c": "전략",
+   "t": "Midterm Elections, Scenario Analysis, Baskets",
+   "stale": "10/1 발간",
+   "one": "선거 시나리오별 종목 바스켓. 선거 전 변동성(VIX) 상승에 대비.",
+   "pts": [
+    "베팅 확률: 민주당 하원 92%, 상원 63%(10/1 기준)",
+    "AI 설비투자 모멘텀은 선거와 무관하게 유지",
+    "반도체·소프트웨어·테크 하드웨어는 시나리오 무관"
+   ]
+  },
+  {
+   "s": "bull",
+   "b": "대신증권",
+   "a": "이경민",
+   "c": "전략",
+   "t": "美 중간선거 결과에 따른 KOSPI 전망과 대응 전략",
+   "one": "블루스윕·분점 확률 91%면 하우스 밴드 유지. 5,200–5,600에서 분할 매수.",
+   "pts": [
+    "블루스윕 63% · 분점 28% · 레드스윕 8%",
+    "KOSPI를 정하는 건 국내 이익: 2027E EPS +34%, PER 4.2배",
+    "선거 무관 최선호: 반도체·조선·바이오"
+   ]
+  },
+  {
+   "s": "bull",
+   "b": "하나증권",
+   "a": "이재만·손일수",
+   "c": "전략",
+   "t": "2027년 주도주: 미국 이익 규모, 한국 새로운 시총 3위",
+   "one": "연말 반등은 삼성전자·하이닉스가 이끈다. 2027년 상반기 주도는 2차전지·IT하드웨어.",
+   "pts": [
+    "2027년 하반기에는 제약바이오·자동차로 주도주 교체",
+    "시총 3위 경쟁: LG엔솔·삼성전기 → 삼성바이오·현대차",
+    "삼성전자 고점 대비 -40%, 과거 5번 평균 5개월간 +40% 반등"
+   ]
+  },
+  {
+   "s": "bull",
+   "b": "현대차증권",
+   "a": "김재승",
+   "c": "전략",
+   "t": "Strategy Weekly - 코스피, 결국 해낼 것이다",
+   "one": "바닥 형성 단계 진입 시도. 연준 인상이 끝나는 2027년 6월 이후 9,000 재도전.",
+   "pts": [
+    "바닥 조건: 5,262 지지, 외국인 매도 완화, 대외 불확실성 완화",
+    "KOSPI 10/2 7,003 → 10/23 5,550(-20.8%)",
+    "시장이 2028년 메모리 이익을 믿는 시점이 재상승 시점"
+   ]
+  },
+  {
+   "s": "bull",
+   "b": "J.P. Morgan",
+   "a": "Matejka 외",
+   "c": "전략",
+   "t": "Equity Strategy: French positioning",
+   "one": "유가는 단기 부담이지만 금리 정점은 결국 호재. 경기민감주 약세는 6–12개월 매수 기회.",
+   "pts": [
+    "프랑스 정치·재정 리스크는 선거(내년 4–6월)까지",
+    "비프랑스 은행·내수주 비중 확대",
+    "한국 12MF PER 3.8배, 연초 대비 -40%"
+   ]
+  }
+ ],
+ "factcheck": {
+  "note": "FT·WSJ·Economist 공개 RSS(제목·요약) 179건과 대조했다. 기사 본문은 보지 못해, 요약에 없는 세부 수치는 '확인 불가'로 둔다. Barron's는 공개 피드가 없어 제외.",
+  "flags": [
+   {
+    "v": "bad",
+    "claim": "ECB 금리 결정일 — SK증권 '수요일(10/28) 저녁'",
+    "ev": "WSJ: ECB는 목요일(10/29) 결정, 동결 예상. 유안타(10/29)가 맞다.",
+    "src": [
+     [
+      "WSJ",
+      "https://www.wsj.com/pro/central-banking/ecb-expected-to-leave-key-rate-unchanged-amid-french-bond-drama-3d511cb4"
+     ]
+    ]
+   },
+   {
+    "v": "bad",
+    "claim": "미래에셋 Weekly: 주간 비차익 매매",
+    "ev": "같은 리포트 p.1은 -3,400억원, p.2는 -5,933억원(추정치). 리포트 내부 불일치."
+   },
+   {
+    "v": "part",
+    "claim": "하이닉스 16조원 특별배당",
+    "ev": "신한 Radar는 '부인', 신한 마감·유안타는 '미확정 공시', 미래에셋은 '추진 보도'. 외신 요약에는 관련 기사 없음."
+   },
+   {
+    "v": "part",
+    "claim": "선거 후 이란 타격 가능성 (LS·JPM)",
+    "ev": "WSJ: 유가는 외교 노력에 하락했지만 시장은 중간선거 후 확전 가능성을 경계. FT도 재공격 계획 가능성을 다룸. 항모 무장·대사관 철수 같은 세부 내용은 요약에 없음.",
+    "src": [
+     [
+      "WSJ",
+      "https://www.wsj.com/finance/commodities-futures/oil-declines-on-likely-technical-correction-ad4be59e"
+     ],
+     [
+      "FT",
+      "https://www.ft.com/content/7b3c17e7-c0bf-4e93-bc5d-17f86fa1b2a5"
+     ]
+    ]
+   }
+  ],
+  "ok": [
+   {
+    "t": "룰라 4선, 브라질 증시·헤알화 급락 (신한·미래에셋)",
+    "src": [
+     [
+      "WSJ",
+      "https://www.wsj.com/world/americas/lula-clings-to-power-in-brazil-election-upset-dba88f6c"
+     ],
+     [
+      "FT",
+      "https://www.ft.com/content/bffe028e-838d-4e74-b05e-62f6db4978db"
+     ]
+    ]
+   },
+   {
+    "t": "이스라엘 총선 10/27(화) (신한)",
+    "src": [
+     [
+      "WSJ",
+      "https://www.wsj.com/world/middle-east/israel-election-parliament-netanyahu-what-to-know-e9507c72"
+     ]
+    ]
+   },
+   {
+    "t": "Anthropic IPO 11월 예정 (현대차) — 10/26 상장 신고서 제출",
+    "src": [
+     [
+      "FT",
+      "https://www.ft.com/content/f6ecfecd-d797-4d2c-b427-d333297949cb"
+     ],
+     [
+      "WSJ",
+      "https://www.wsj.com/livecoverage/stock-market-today-dow-sp-500-nasdaq-10-26-2026"
+     ]
+    ]
+   },
+   {
+    "t": "메타 대규모 증자 계획 (유진) — 최대 950억 달러 조달, 주식 발행 포함",
+    "src": [
+     [
+      "FT",
+      "https://www.ft.com/content/94e5a0ae-874d-447a-bbfc-cd465a1a7555"
+     ],
+     [
+      "WSJ",
+      "https://www.wsj.com/tech/ai/meta-plans-35-billion-stock-offering-to-power-ai-buildout-eyes-95-billion-total-plan-10b8947e"
+     ]
+    ]
+   },
+   {
+    "t": "이번 주 FOMC, 시장은 인상 신호에 주목 (유안타·대신·SK)",
+    "src": [
+     [
+      "WSJ",
+      "https://www.wsj.com/finance/stocks/u-s-stocks-rise-ahead-of-tech-earnings-d53bc5e5"
+     ],
+     [
+      "FT",
+      "https://www.ft.com/content/181316cc-0f4c-4328-b990-ad0d43ce424c"
+     ]
+    ]
+   },
+   {
+    "t": "르펜, 내년 프랑스 대선 출마 (JPM)",
+    "src": [
+     [
+      "WSJ",
+      "https://www.wsj.com/world/europe/le-pen-pitches-herself-as-frances-unifier-after-another-weekend-of-protests-1ddb802c"
+     ]
+    ]
+   },
+   {
+    "t": "KOSPI 10/26 종가 5,469 · 6/22 고점 9,114 · 연준 상단 4.00% (리포트 간 일치)",
+    "src": []
+   }
+  ],
+  "unchecked": "외신 요약으로 확인 못 한 것: 키옥시아 차익 16조원, 머스크 400억 달러 칩 조달, 딥시크 이용료 1/40, MSCI 브라질 시간외 -17.7%·-19.6%, APEC 11/18–19.",
+  "extra": [
+   {
+    "t": "프랑스 국채 강세 — 무디스 등급 강등 모면 (JPM 프랑스 논지 관련)",
+    "src": [
+     [
+      "FT",
+      "https://www.ft.com/content/97a60042-f7b6-4c87-9387-8572968a7de0"
+     ]
+    ]
+   },
+   {
+    "t": "美 이익 증가의 34%가 AI 칩 2개사(엔비디아·마이크론) — 이익 쏠림",
+    "src": [
+     [
+      "WSJ",
+      "https://www.wsj.com/finance/stocks/the-earnings-boom-is-heavily-reliant-on-just-a-handful-of-stocks-21decb53"
+     ]
+    ]
+   },
+   {
+    "t": "MS 6만 명 희망퇴직, 올해 AI 인프라에 최대 1,750억 달러",
+    "src": [
+     [
+      "FT",
+      "https://www.ft.com/content/2ef29406-f2f8-413f-81f6-5ae098c97569"
+     ]
+    ]
+   }
+  ]
+ },
+ "sources": "증권사 리포트: Google Drive '주식전략' 폴더 15건 · 외신: FT·WSJ·Economist 공개 RSS 179건(10/24–10/27)",
+ "bands": [
+  {
+   "min": 4800,
+   "max": 9400,
+   "ticks": [
+    5000,
+    6000,
+    7000,
+    8000,
+    9000
+   ],
+   "lines": [
+    {
+     "v": 5469,
+     "label": "10/26 종가 5,469",
+     "now": true
+    },
+    {
+     "v": 9115,
+     "label": "6/22 고점 9,115"
+    }
+   ],
+   "rows": [
+    {
+     "who": "대신",
+     "note": "연말 기본 7,100",
+     "q": [
+      5200,
+      6700
+     ],
+     "y": [
+      5200,
+      8200
+     ]
+    },
+    {
+     "who": "DB",
+     "note": "분기별 밴드",
+     "q": [
+      5000,
+      7300
+     ],
+     "y": [
+      5000,
+      8000
+     ]
+    },
+    {
+     "who": "현대차",
+     "note": "지지 5,262 · 2027 하반기 9,000 시도",
+     "qDot": 5262,
+     "y": [
+      7000,
+      9000
+     ]
+    },
+    {
+     "who": "골드만삭스",
+     "note": "미래에셋 인용 · 12개월 목표",
+     "yDot": 9000
+    }
+   ],
+   "title": "KOSPI 전망 밴드",
+   "qLabel": "4Q26",
+   "yLabel": "2027"
+  },
+  {
+   "title": "S&P 500 목표 레인지",
+   "qLabel": "4Q26",
+   "yLabel": "2027",
+   "min": 7000,
+   "max": 8000,
+   "ticks": [
+    7000,
+    7250,
+    7500,
+    7750,
+    8000
+   ],
+   "lines": [
+    {
+     "v": 7623.68,
+     "label": "10/23 종가 7,624",
+     "now": true
+    }
+   ],
+   "rows": [
+    {
+     "who": "DB",
+     "note": "4Q26E 매크로 전망",
+     "q": [
+      7200,
+      7800
+     ]
+    }
+   ],
+   "foot": "오늘 리포트 중 S&P 500 목표치를 낸 곳은 DB 1곳. 대신(CY27 EPS 416.97달러)·하나(2027 EPS 422달러)·JPM은 이익 전망만 제시. 종가는 대신 리포트 기준."
+  }
+ ]
 }
 </script>
 
@@ -322,23 +861,23 @@ footer { font-size: 12px; color: var(--muted); display: grid; gap: 4px; }
         D.stance[k].map(function (x) { return '<div class="chip">' + esc(x[0]) + '<small>' + esc(x[1]) + '</small></div>'; }).join('') + '</div>';
     }).join('') + '</div></section>');
 
-  var B = D.band, pct = function (v) { return ((v - B.min) / (B.max - B.min) * 100).toFixed(2) + '%'; };
-  var wid = function (a, b) { return ((b - a) / (B.max - B.min) * 100).toFixed(2) + '%'; };
-  h.push('<section><h2>KOSPI 전망 밴드</h2><div class="band"><div class="band-plot">' +
-    B.lines.map(function (l) { return '<div class="vline' + (l.now ? ' now' : '') + '" style="left:' + pct(l.v) + '"><b class="num">' + esc(l.label) + '</b></div>'; }).join('') +
-    B.rows.map(function (r) {
-      var t = '';
-      if (r.q) t += '<div class="seg q" style="left:' + pct(r.q[0]) + ';width:' + wid(r.q[0], r.q[1]) + '" title="4Q26 ' + fmt(r.q[0]) + '–' + fmt(r.q[1]) + '"></div>';
-      if (r.y) t += '<div class="seg y" style="left:' + pct(r.y[0]) + ';width:' + wid(r.y[0], r.y[1]) + '" title="2027 ' + fmt(r.y[0]) + '–' + fmt(r.y[1]) + '"></div>';
-      if (r.qDot) t += '<div class="dot" style="left:' + pct(r.qDot) + ';top:-2px" title="' + fmt(r.qDot) + '"></div>';
-      if (r.yDot) t += '<div class="dot ext" style="left:' + pct(r.yDot) + '" title="' + fmt(r.yDot) + '"></div>';
-      var rng = [];
-      if (r.q) rng.push('4Q26 ' + fmt(r.q[0]) + '–' + fmt(r.q[1]));
-      if (r.y) rng.push('2027 ' + fmt(r.y[0]) + '–' + fmt(r.y[1]));
-      return '<div class="band-row"><div class="lbl">' + esc(r.who) + ' <span class="num">' + esc(rng.join(' · ')) + '</span> <span>' + esc(r.note) + '</span></div><div class="track">' + t + '</div></div>';
-    }).join('') +
-    '</div><div class="axis">' + B.ticks.map(function (v) { return '<span class="num" style="left:' + pct(v) + '">' + fmt(v) + '</span>'; }).join('') + '</div>' +
-    '<div class="band-key"><span><i style="background:var(--accent)"></i>4Q26</span><span><i style="background:color-mix(in srgb, var(--accent) 35%, transparent)"></i>2027</span><span>● 지지선·목표치</span></div></div></section>');
+  D.bands.forEach(function (B) {
+    var pct = function (v) { return ((v - B.min) / (B.max - B.min) * 100).toFixed(2) + '%'; };
+    var wid = function (a, b) { return ((b - a) / (B.max - B.min) * 100).toFixed(2) + '%'; };
+    h.push('<section><h2>' + esc(B.title) + '</h2><div class="band"><div class="band-plot">' +
+      B.lines.map(function (l) { return '<div class="vline' + (l.now ? ' now' : '') + '" style="left:' + pct(l.v) + '"><b class="num">' + esc(l.label) + '</b></div>'; }).join('') +
+      B.rows.map(function (r) {
+        var t = '', rng = [];
+        if (r.q) { t += '<div class="seg q" style="left:' + pct(r.q[0]) + ';width:' + wid(r.q[0], r.q[1]) + '"></div>'; rng.push(B.qLabel + ' ' + fmt(r.q[0]) + '–' + fmt(r.q[1])); }
+        if (r.y) { t += '<div class="seg y" style="left:' + pct(r.y[0]) + ';width:' + wid(r.y[0], r.y[1]) + '"></div>'; rng.push(B.yLabel + ' ' + fmt(r.y[0]) + '–' + fmt(r.y[1])); }
+        if (r.qDot) t += '<div class="dot" style="left:' + pct(r.qDot) + ';top:-2px"></div>';
+        if (r.yDot) t += '<div class="dot ext" style="left:' + pct(r.yDot) + '"></div>';
+        return '<div class="band-row"><div class="lbl">' + esc(r.who) + ' <span class="num">' + esc(rng.join(' · ')) + '</span> <span>' + esc(r.note) + '</span></div><div class="track">' + t + '</div></div>';
+      }).join('') +
+      '</div><div class="axis">' + B.ticks.map(function (v) { return '<span class="num" style="left:' + pct(v) + '">' + fmt(v) + '</span>'; }).join('') + '</div>' +
+      '<div class="band-key">' + (B.rows.some(function (r) { return r.q || r.qDot; }) ? '<span><i style="background:var(--accent)"></i>' + esc(B.qLabel) + '</span>' : '') + (B.rows.some(function (r) { return r.y; }) ? '<span><i style="background:color-mix(in srgb, var(--accent) 35%, transparent)"></i>' + esc(B.yLabel) + '</span>' : '') + (B.rows.some(function (r) { return r.qDot || r.yDot; }) ? '<span>● 지지선·목표치</span>' : '') + '</div>' +
+      (B.foot ? '<p class="why">' + esc(B.foot) + '</p>' : '') + '</div></section>');
+  });
 
   h.push('<section><h2>의견이 갈리는 곳</h2><div>' + D.debates.map(function (d) {
     return '<div class="debate"><h3>' + esc(d.topic) + '</h3><div class="sides">' +
@@ -359,11 +898,15 @@ footer { font-size: 12px; color: var(--muted); display: grid; gap: 4px; }
   }).join('') + '</div></section>');
 
   var F = D.factcheck, VL = { bad: '불일치', part: '확인 필요', ok: '일치' }, VC = { bad: 'v-bad', part: 'v-part', ok: 'v-ok' };
-  h.push('<section><h2>팩트체크</h2><p class="fc-note">' + esc(F.note) + '</p><div class="fc">' +
-    F.flags.map(function (f) { return '<div class="fc-item"><span class="verdict ' + VC[f.v] + '">' + VL[f.v] + '</span><div><b>' + esc(f.claim) + '</b><div class="ev">' + esc(f.ev) + '</div></div></div>'; }).join('') +
-    '</div><details class="more"><summary><span>리포트끼리 일치한 사실 ' + F.ok.length + '건</span><span class="chev" aria-hidden="true">▶</span></summary><div class="fc">' +
-    F.ok.map(function (o) { return '<div class="fc-item"><span class="verdict v-ok">일치</span><div>' + esc(o) + '</div></div>'; }).join('') +
-    '</div></details><p class="why">' + esc(F.unchecked) + '</p></section>');
+  var links = function (src) { return (src || []).map(function (x) { return '<a class="src" href="' + esc(x[1]) + '" target="_blank" rel="noopener">' + esc(x[0]) + ' ↗</a>'; }).join(' '); };
+  var row = function (badge, cls, title, ev, src) { return '<div class="fc-item"><span class="verdict ' + cls + '">' + badge + '</span><div><b>' + esc(title) + '</b>' + (ev ? '<div class="ev">' + esc(ev) + '</div>' : '') + (src && src.length ? '<div class="ev">' + links(src) + '</div>' : '') + '</div></div>'; };
+  h.push('<section><h2>팩트체크 · 리포트 vs 외신</h2><p class="fc-note">' + esc(F.note) + '</p><div class="fc">' +
+    F.flags.map(function (f) { return row(VL[f.v], VC[f.v], f.claim, f.ev, f.src); }).join('') + '</div>' +
+    '<details class="more"><summary><span>외신·리포트와 일치한 사실 ' + F.ok.length + '건</span><span class="chev" aria-hidden="true">▶</span></summary><div class="fc">' +
+    F.ok.map(function (o) { return row('일치', 'v-ok', o.t, '', o.src); }).join('') + '</div></details>' +
+    (F.extra && F.extra.length ? '<details class="more"><summary><span>리포트 논지와 관련된 외신 ' + F.extra.length + '건</span><span class="chev" aria-hidden="true">▶</span></summary><div class="fc">' +
+      F.extra.map(function (o) { return row('참고', 'v-part', o.t, '', o.src); }).join('') + '</div></details>' : '') +
+    '<p class="why">' + esc(F.unchecked) + '</p></section>');
 
   h.push('<footer><span>' + esc(D.sources) + '</span><span>요약은 리포트 원문을 의역한 것입니다. 투자 판단의 근거로 쓰기 전에 원문을 확인하세요.</span></footer>');
 

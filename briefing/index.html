@@ -159,6 +159,26 @@ details[open] summary .chev { transform: rotate(90deg); }
 .src:hover, .src:focus-visible { text-decoration: underline; }
 .more summary { grid-template-columns: 1fr auto; font-size: 14px; color: var(--muted); }
 
+
+/* 깊이 읽기 */
+.deep { display: grid; gap: 12px; }
+.deep details { border: 1px solid var(--line); border-radius: 10px; background: var(--surface); }
+.deep details:first-of-type { border-top: 1px solid var(--line); }
+.deep summary { padding: 14px 14px; grid-template-columns: 8px 1fr auto; }
+.deep .body { padding: 0 16px 16px 32px; display: grid; gap: 14px; font-size: 14px; }
+.deep h4 { margin: 0; font-size: 12px; font-weight: 600; letter-spacing: .04em; color: var(--muted); }
+.deep ul { margin: 0; padding-left: 18px; display: grid; gap: 5px; }
+.deep .claim { font-weight: 600; }
+.deep .claim + ul { margin-top: 4px; font-weight: 400; color: var(--muted); }
+.deep .cmp li { list-style: none; margin-left: -18px; display: grid; grid-template-columns: auto 1fr; gap: 8px; align-items: start; }
+.tag { font-size: 11px; font-weight: 600; padding: 2px 7px; border-radius: 4px; white-space: nowrap; margin-top: 2px; }
+.tag.conflict { background: var(--down-soft); color: var(--down); }
+.tag.support { background: var(--flat-soft); color: var(--ink); }
+.tag.confirm { background: var(--up-soft); color: var(--up); }
+.tag.note { background: var(--warn-soft); color: var(--warn); }
+.deep .who2 { font-weight: 600; }
+.subhead { font-size: 15px; font-weight: 600; margin-top: 6px; }
+
 footer { font-size: 12px; color: var(--muted); display: grid; gap: 4px; }
 
 @media (max-width: 520px) {
@@ -584,7 +604,7 @@ footer { font-size: 12px; color: var(--muted); display: grid; gap: 4px; }
   }
  ],
  "factcheck": {
-  "note": "FT·WSJ·Economist 공개 RSS(제목·요약) 179건과 대조했다. 기사 본문은 보지 못해, 요약에 없는 세부 수치는 '확인 불가'로 둔다. Barron's는 공개 피드가 없어 제외.",
+  "note": "FT·WSJ·Economist 아침 브리핑(본문 기반, 10/27 실행)과 공개 RSS 179건과 대조했다. 두 자료에 없는 세부 수치는 '확인 불가'로 둔다. Barron's는 아직 브리핑 대상에 없다.",
   "flags": [
    {
     "v": "bad",
@@ -673,6 +693,10 @@ footer { font-size: 12px; color: var(--muted); display: grid; gap: 4px; }
     ]
    },
    {
+    "t": "10월 FOMC 동결 우세 (SK 90%·대신 인상 5–10%) — 인플레 지표는 강하지만 선거 앞 동결 전망 (WSJ, 아침 브리핑)",
+    "src": []
+   },
+   {
     "t": "이번 주 FOMC, 시장은 인상 신호에 주목 (유안타·대신·SK)",
     "src": [
      [
@@ -702,7 +726,7 @@ footer { font-size: 12px; color: var(--muted); display: grid; gap: 4px; }
   "unchecked": "외신 요약으로 확인 못 한 것: 키옥시아 차익 16조원, 머스크 400억 달러 칩 조달, 딥시크 이용료 1/40, MSCI 브라질 시간외 -17.7%·-19.6%, APEC 11/18–19.",
   "extra": [
    {
-    "t": "프랑스 국채 강세 — 무디스 등급 강등 모면 (JPM 프랑스 논지 관련)",
+    "t": "프랑스 10년물 2002년 이후 첫 5% 터치 후, 무디스 등급 유지로 반등 (JPM 프랑스 논지 관련)",
     "src": [
      [
       "FT",
@@ -727,10 +751,23 @@ footer { font-size: 12px; color: var(--muted); display: grid; gap: 4px; }
       "https://www.ft.com/content/2ef29406-f2f8-413f-81f6-5ae098c97569"
      ]
     ]
+   },
+   {
+    "t": "Economist: AI 업계의 거대한 부채가 투자자를 불안하게 한다 / 반도체 업황 대폭락 가능성 논쟁",
+    "src": [
+     [
+      "Economist 부채",
+      "https://www.economist.com/business/2026/10/18/the-ai-industrys-gigantic-debts-are-making-investors-nervous"
+     ],
+     [
+      "Economist 반도체",
+      "https://www.economist.com/business/2026/10/15/is-the-semiconductor-industry-headed-for-an-almighty-crash"
+     ]
+    ]
    }
   ]
  },
- "sources": "증권사 리포트: Google Drive '주식전략' 폴더 15건 · 외신: FT·WSJ·Economist 공개 RSS 179건(10/24–10/27)",
+ "sources": "증권사 리포트: Google Drive '주식전략' 폴더 15건 · 외신: FT·WSJ·Economist 아침 브리핑(10/27) + 공개 RSS 179건(10/24–10/27)",
  "bands": [
   {
    "min": 4800,
@@ -829,7 +866,690 @@ footer { font-size: 12px; color: var(--muted); display: grid; gap: 4px; }
    ],
    "foot": "오늘 리포트 중 S&P 500 목표치를 낸 곳은 DB 1곳. 대신(CY27 EPS 416.97달러)·하나(2027 EPS 422달러)·JPM은 이익 전망만 제시. 종가는 대신 리포트 기준."
   }
- ]
+ ],
+ "deep": {
+  "reports": [
+   {
+    "b": "대신증권",
+    "a": "이경민",
+    "t": "美 중간선거 결과에 따른 KOSPI 전망과 대응 전략",
+    "s": "bull",
+    "why": "선거 시나리오별 KOSPI 밴드와 업종을 숫자로 제시한 유일한 자료.",
+    "bg": [
+     "美 중간선거 11/3. Polymarket 블루스윕 확률이 9/1 50.5%에서 10/24 66.5%로 상승.",
+     "KOSPI는 6/22 고점 9,114.55에서 10/23 5,550까지 -39.1%. 10/15에는 서킷브레이커(-7.57%) 발동. 외국인은 연초 이후 약 -208조원 순매도.",
+     "연준은 9/16 기준금리를 3.75–4.00%로 인상. 9월 CPI 3.7%, WTI 108달러(10/20)."
+    ],
+    "claims": [
+     {
+      "c": "선거는 '불확실성 해소' 이벤트다. 레드스윕만 아니면 KOSPI 영향은 제한적.",
+      "e": [
+       "시나리오 확률: 블루스윕 63%, 분점 28%, 레드스윕 8%",
+       "자체 시뮬레이션 20만 회: 민주당 상원 51석 이상 63.8%",
+       "1950년 이후 중간선거 후 12개월 S&P 500 평균 +15.1%, 19번 모두 상승"
+      ]
+     },
+     {
+      "c": "KOSPI를 정하는 건 선거가 아니라 국내 이익 사이클이다.",
+      "e": [
+       "2027E EPS 1,382pt(+34.0%)",
+       "12MF PER 4.2–4.3배, PBR 1.08배 (PBR 1.0배 = 5,180)"
+      ]
+     },
+     {
+      "c": "4Q26 5,200–5,600에서 분할 매수, 2Q27 7,700 이상에서는 차익실현.",
+      "e": [
+       "하우스 밴드: 4Q26 5,200–6,700, 2027년 5,200–8,200",
+       "레드스윕이면 4Q26 하단이 5% 낮아져 4,950"
+      ]
+     },
+     {
+      "c": "정치 리스크의 정점은 선거가 아니라 2027년 하반기다.",
+      "e": [
+       "부채한도 X-date가 2027년 말–2028년 초로 다가옴"
+      ]
+     }
+    ],
+    "cmp": [
+     {
+      "tag": "상충",
+      "who": "유진 허재환",
+      "text": "급락이 진정돼도 본격 상승은 아니며 10–20% 추가 하락 가능. 대신은 5,200을 하단으로 보고 매수를 권한다."
+     },
+     {
+      "tag": "상충",
+      "who": "현대차 김재승",
+      "text": "2027년 하반기 9,000 재도전. 대신은 같은 시기를 리스크 정점으로 보고 상단을 8,200으로 둔다."
+     },
+     {
+      "tag": "보완",
+      "who": "하나 · DB",
+      "text": "하나: 1980년 이후 중간선거 다음 해 S&P 500 +15%, 코스피 +11%. DB: 대립정부 후 1년 S&P 500 +15.6%. 같은 경험칙을 다른 표본으로 확인."
+     },
+     {
+      "tag": "외신",
+      "who": "FT",
+      "text": "'민주당이 상원을 이길 수 있나'를 경합으로 다룸. 대신의 '민주당 우위의 접전'과 같은 결.",
+      "src": [
+       [
+        "FT",
+        "https://www.ft.com/content/29f1af13-ecc3-4f26-a479-e6088c67231b"
+       ]
+      ]
+     }
+    ]
+   },
+   {
+    "b": "유진투자증권",
+    "a": "허재환",
+    "t": "자금쟁탈전의 부작용",
+    "s": "bear",
+    "why": "AI 급락의 원인을 '자금조달'로 설명하는 오늘 가장 선명한 약세 논리. 메타 증자 보도로 바로 확인됐다.",
+    "bg": [
+     "10월 AI 기업 주가 급락. 코스피는 6월 고점 9,114 대비 -39–40%.",
+     "브렌트유 116달러. 1년 새 유가가 2배 넘게 오르면 미국 경기침체 우려가 커진다고 본다."
+    ],
+    "claims": [
+     {
+      "c": "AI 급락은 수요(성장)가 아니라 자금조달의 문제다.",
+      "e": [
+       "2027년 빅테크 설비투자 1.2–1.5조 달러 중 70% 이상을 빚으로 조달해야 함 — 美 국채 순발행의 40% 규모",
+       "빅4 회사채 발행: 2025년 830억 → 2026E 2,140억 → 2027E 8,400억 달러"
+      ]
+     },
+     {
+      "c": "빚으로도 모자라면 증자로 이어지고, 주주가치가 희석된다.",
+      "e": [
+       "메타의 의결권 없는 보통주(C) 발행 계획 보도"
+      ]
+     },
+     {
+      "c": "과거 버블 붕괴도 '자금 소진'이 계기였다.",
+      "e": [
+       "2000년 Pets.com 상장 9개월 만에 파산, 2008년 프레디맥 법정관리 → 리먼 파산",
+       "하이닉스가 솔리다임 상장 계획을 접은 10/23에 오히려 반등 — 시장이 희석을 걱정한다는 반증"
+      ]
+     },
+     {
+      "c": "추가 10–20% 하락 여부는 경기와 내년 실적에 달렸다. 대안은 반도체와 소비.",
+      "e": [
+       "반도체는 수익성(ROE) 대비 PBR이 낮음",
+       "미디어·호텔레저·소매·필수소비 등 내수 소비도 PBR 낮음"
+      ]
+     }
+    ],
+    "cmp": [
+     {
+      "tag": "외신 확인",
+      "who": "FT · WSJ",
+      "text": "메타가 주식 발행을 포함해 최대 950억 달러 조달 계획. 엔비디아·AMD·브로드컴이 앵커 투자자. 유진의 희석 우려가 현실화.",
+      "src": [
+       [
+        "FT",
+        "https://www.ft.com/content/94e5a0ae-874d-447a-bbfc-cd465a1a7555"
+       ],
+       [
+        "WSJ",
+        "https://www.wsj.com/tech/ai/meta-plans-35-billion-stock-offering-to-power-ai-buildout-eyes-95-billion-total-plan-10b8947e"
+       ]
+      ]
+     },
+     {
+      "tag": "외신 확인",
+      "who": "Economist",
+      "text": "AI 업계의 거대한 부채가 투자자를 불안하게 한다는 기사 — 같은 진단.",
+      "src": [
+       [
+        "Economist",
+        "https://www.economist.com/business/2026/10/18/the-ai-industrys-gigantic-debts-are-making-investors-nervous"
+       ]
+      ]
+     },
+     {
+      "tag": "보완",
+      "who": "SK 조준기 · 신한 강진혁",
+      "text": "SK: 투자를 늘려도 줄여도 벌을 받는 'CAPEX vs FCF' 딜레마. 신한: MSFT를 뺀 빅테크는 FCF 적자로 자본 제약."
+     },
+     {
+      "tag": "상충",
+      "who": "LS 정다운",
+      "text": "매도 클라이맥스가 지나 이번 주 저점 통과 가능성이 높다고 본다."
+     },
+     {
+      "tag": "상충",
+      "who": "J.P. Morgan 테마",
+      "text": "AI 설비투자 모멘텀은 2027–28년에 오히려 강해진다. 조달 부담보다 투자 지속에 무게."
+     }
+    ]
+   },
+   {
+    "b": "하나증권",
+    "a": "이재만·손일수",
+    "t": "2027년 주도주: 미국 이익 규모, 한국 새로운 시총 3위",
+    "s": "bull",
+    "why": "2027년 업종 순환 로드맵을 '이익 규모 vs 이익 증가율'로 풀었다. 중기 포트폴리오에 바로 쓸 수 있다.",
+    "bg": [
+     "2027년 S&P 500·코스피 모두 이익은 사상 최고지만 증가율은 둔화.",
+     "S&P 500 EPS 2026년 363달러(+35%) → 2027년 422달러(+16%). 코스피 순이익 794조원(+265%) → 1,053조원(+33%)."
+    ],
+    "claims": [
+     {
+      "c": "미국은 이익이 큰 업종이 PER도 높다 → 반도체·소프트웨어가 연간 주도.",
+      "e": [
+       "2010년 이후 12개월 예상 순이익과 PER 상관계수 0.7",
+       "분기별 순환: 1Q 자동차 → 2Q 자본재 → 3Q 제약·바이오 → 4Q 하드웨어"
+      ]
+     },
+     {
+      "c": "한국은 반대로 이익 증가율이 높아지는 업종이 주도한다.",
+      "e": [
+       "코스피는 이익 규모와 PER이 반대 방향(상관계수 -0.5)"
+      ]
+     },
+     {
+      "c": "연말–1Q27 반등은 삼성전자·하이닉스가 이끈다.",
+      "e": [
+       "삼성전자 고점 대비 -40% 이상. 과거 5번 사례 평균 5개월간 +40.1% 반등",
+       "하이닉스 12MF PER 3배 (TSMC 17배)"
+      ]
+     },
+     {
+      "c": "2027년 상반기는 2차전지·IT하드웨어, 하반기는 제약바이오·자동차.",
+      "e": [
+       "삼성전기 2027E 순이익 +99.9%, LG에너지솔루션 흑자 전환",
+       "시총 3위 경쟁: LG엔솔·삼성전기 → 삼성바이오로직스·현대차"
+      ]
+     }
+    ],
+    "cmp": [
+     {
+      "tag": "상충",
+      "who": "대신 이경민",
+      "text": "선거와 무관한 최선호는 반도체·조선·바이오. 2차전지는 블루스윕일 때만 보완 업종."
+     },
+     {
+      "tag": "상충",
+      "who": "DB",
+      "text": "AI 토큰 지출이 반등하기 전까지 반도체에 신중."
+     },
+     {
+      "tag": "보완",
+      "who": "현대차 김재승",
+      "text": "시장이 2028년 메모리 이익을 믿는 시점이 재상승 시점 — 하나의 반도체 반등론과 같은 축."
+     },
+     {
+      "tag": "외신",
+      "who": "WSJ",
+      "text": "美 이익 증가의 34%가 엔비디아·마이크론 2개사, 상위 10개사가 약 3분의 2. '이익 규모' 논리를 뒷받침하지만 쏠림 리스크이기도 하다.",
+      "src": [
+       [
+        "WSJ",
+        "https://www.wsj.com/finance/stocks/the-earnings-boom-is-heavily-reliant-on-just-a-handful-of-stocks-21decb53"
+       ]
+      ]
+     },
+     {
+      "tag": "외신 상충",
+      "who": "Economist",
+      "text": "반도체 업황 대폭락 가능성을 논쟁으로 다룸 — 하나의 반도체 주도 반등론과 반대 방향.",
+      "src": [
+       [
+        "Economist",
+        "https://www.economist.com/business/2026/10/15/is-the-semiconductor-industry-headed-for-an-almighty-crash"
+       ]
+      ]
+     }
+    ]
+   },
+   {
+    "b": "LS증권",
+    "a": "정다운",
+    "t": "바닥은, 더 이상 팔 사람이 없을 때 만들어진다",
+    "s": "neutral",
+    "why": "'단기 바닥'의 근거를 수급 지표로 가장 구체적으로 보여준다.",
+    "bg": [
+     "KOSPI 지난주 -2.1%, 5,550.3 마감.",
+     "약세 요인: AI 생태계의 대규모 자금 수요와 조달 비용, 지정학 리스크."
+    ],
+    "claims": [
+     {
+      "c": "레버리지 강제 청산은 정점을 지났다.",
+      "e": [
+       "신용융자 잔고 10/12 34.3조원 → 10/22 30.4조원 (-3.9조원)",
+       "미수금 대비 반대매매 10/14 6.6% → 10/22 1.0%"
+      ]
+     },
+     {
+      "c": "숏 포지션이 과밀해 반등 시 숏커버링이 나올 수 있다.",
+      "e": [
+       "CFTC S&P 500 선물 투기적 순매도가 미결제약정의 7%",
+       "헤지펀드 숏 포지션 최근 5년래 최고"
+      ]
+     },
+     {
+      "c": "11월 美 자사주 매입 재개가 방아쇠가 될 수 있다.",
+      "e": [
+       "올해 美 자사주 매입 승인 규모 1.3조 달러"
+      ]
+     },
+     {
+      "c": "남은 변수는 중동과 FOMC. 다만 10월 FOMC는 점도표(SEP)가 없어 충격은 제한적.",
+      "e": [
+       "주말 美 항모전단 무장 준비, 중동 4개국 대사관 인력 감축 소식"
+      ]
+     }
+    ],
+    "cmp": [
+     {
+      "tag": "보완",
+      "who": "SK 나승두",
+      "text": "코스닥 신용잔고도 7조원 밑으로 연중 최저권. 같은 디레버리징 신호."
+     },
+     {
+      "tag": "보완",
+      "who": "DB",
+      "text": "헤지펀드의 미국채 숏·AI 롱 청산이 11월 중순 마무리. 포지션 정리 이후를 본다는 점에서 같은 방향."
+     },
+     {
+      "tag": "상충",
+      "who": "유진 허재환",
+      "text": "급락이 진정돼도 본격 상승은 아니다."
+     },
+     {
+      "tag": "외신",
+      "who": "WSJ · FT",
+      "text": "유가는 외교 노력에 하락했지만 시장은 중간선거 후 확전 가능성을 경계. LS가 꼽은 중동 리스크와 같은 방향.",
+      "src": [
+       [
+        "WSJ",
+        "https://www.wsj.com/finance/commodities-futures/oil-declines-on-likely-technical-correction-ad4be59e"
+       ],
+       [
+        "FT",
+        "https://www.ft.com/content/7b3c17e7-c0bf-4e93-bc5d-17f86fa1b2a5"
+       ]
+      ]
+     }
+    ]
+   },
+   {
+    "b": "현대차증권",
+    "a": "김재승",
+    "t": "Strategy Weekly - 코스피, 결국 해낼 것이다",
+    "s": "bull",
+    "why": "바닥 형성의 '조건'을 체크리스트로 제시했다. 2027년 경로는 오늘 자료 중 가장 낙관적.",
+    "bg": [
+     "코스피 10/2 7,003 → 10/23 5,550 (-20.8%).",
+     "금리선물은 2027년 6월까지 연준 2차례 인상을 반영."
+    ],
+    "claims": [
+     {
+      "c": "코스피는 와인스타인 사이클상 '하락 추세 → 바닥 형성'으로 넘어가는 중이다.",
+      "e": [
+       "120일선이 지지선에서 저항선으로 바뀜"
+      ]
+     },
+     {
+      "c": "바닥 형성에는 세 가지 조건이 필요하다.",
+      "e": [
+       "① 7/29 장중 저점 5,262 지지",
+       "② 외국인 순매도 완화 — 지난주 주간 순매도가 최근 4주 중 최소",
+       "③ 대외 불확실성 완화"
+      ]
+     },
+     {
+      "c": "시장이 2028년 메모리 이익을 믿는 시점에 다시 오른다.",
+      "e": [
+       "삼성전자+하이닉스 2028년 이익 전망은 상향 중이나 주가에 미반영"
+      ]
+     },
+     {
+      "c": "2027년 상반기 7,000선 횡보, 6월 연준 인상 종료 후 7,000–8,000 돌파와 9,000 시도.",
+      "e": [
+       "S&P 500 중간선거 후 6개월 평균 +14.1%"
+      ]
+     }
+    ],
+    "cmp": [
+     {
+      "tag": "상충",
+      "who": "대신 이경민",
+      "text": "2027년 상단 8,200, 2Q27 7,700 이상 차익실현. 하반기를 리스크 구간으로 본다."
+     },
+     {
+      "tag": "상충",
+      "who": "유진 허재환",
+      "text": "경기·실적이 꺾이면 10–20% 추가 하락."
+     },
+     {
+      "tag": "보완",
+      "who": "미래에셋 Flow",
+      "text": "외국인 주간 순매도 -1.4조원으로 축소 — 현대차의 조건 ②와 일치."
+     },
+     {
+      "tag": "외신 확인",
+      "who": "FT · WSJ",
+      "text": "현대차가 11월 이벤트로 꼽은 Anthropic IPO: 10/26 상장 신고서 제출, 다음 달 상장 예정.",
+      "src": [
+       [
+        "FT",
+        "https://www.ft.com/content/f6ecfecd-d797-4d2c-b427-d333297949cb"
+       ]
+      ]
+     }
+    ]
+   },
+   {
+    "b": "J.P. Morgan",
+    "a": "Matejka 외",
+    "t": "Equity Strategy: French positioning",
+    "s": "bull",
+    "why": "해외 하우스 중 '금리 정점 → 주식에 긍정'과 지역 배분을 함께 제시한 자료.",
+    "bg": [
+     "프랑스 재정적자 2026년 -5.4%. 2027년 5.0% 목표에 430억 유로 신규 조치 필요.",
+     "CAC40은 3년간 언더퍼폼, 상대 P/E 역대 최저. 美 10년물 4.96%(10/23)."
+    ],
+    "claims": [
+     {
+      "c": "프랑스 정치·재정 리스크는 내년 4–6월 선거까지 이어진다. 유럽 전체로 번지진 않는다.",
+      "e": [
+       "은행 자본 충실, 유럽 신용 부도 저점, ECB가 백스톱",
+       "프랑스-독일 스프레드는 펀더멘털 대비 55bp 과도"
+      ]
+     },
+     {
+      "c": "비프랑스 내수주·은행 비중 확대, 프랑스 대비.",
+      "e": [
+       "비프랑스 은행 P/E 8–9배",
+       "CAC40 매출의 76%가 해외 — 프랑스 수출주는 기회"
+      ]
+     },
+     {
+      "c": "유가는 단기 부담이지만 금리 정점은 결국 호재. 경기민감주 약세는 6–12개월 매수 기회.",
+      "e": [
+       "주식 Overweight(65%). 이미 동일가중 > 시총가중, 가치 > 성장 반등",
+       "한국 12MF PER 3.8배(연초 6.4배, -40%)"
+      ]
+     }
+    ],
+    "cmp": [
+     {
+      "tag": "외신",
+      "who": "FT · WSJ",
+      "text": "프랑스 10년물이 2002년 이후 처음 5%에 닿았다가 무디스 등급 유지로 반등(FT, 아침 브리핑). 르펜이 내년 대선 출마 선언, 시위 확산(WSJ). 리스크가 양쪽으로 움직이는 중.",
+      "src": [
+       [
+        "FT",
+        "https://www.ft.com/content/97a60042-f7b6-4c87-9387-8572968a7de0"
+       ],
+       [
+        "WSJ",
+        "https://www.wsj.com/world/europe/le-pen-pitches-herself-as-frances-unifier-after-another-weekend-of-protests-1ddb802c"
+       ]
+      ]
+     },
+     {
+      "tag": "보완",
+      "who": "DB",
+      "text": "美 10년물 4.8%까지 반락 가능 — 금리 정점론과 같은 방향."
+     },
+     {
+      "tag": "부분 상충",
+      "who": "대신 이경민",
+      "text": "대신은 美 10년물 고점을 4Q26 5.20%로 더 높게 본다(4Q27 4.85%). 정점의 시점과 높이가 다르다."
+     }
+    ]
+   }
+  ],
+  "news": [
+   {
+    "src": "FT · WSJ",
+    "t": "메타, 주식 발행 포함 최대 950억 달러 조달 계획",
+    "links": [
+     [
+      "FT",
+      "https://www.ft.com/content/94e5a0ae-874d-447a-bbfc-cd465a1a7555"
+     ],
+     [
+      "WSJ",
+      "https://www.wsj.com/tech/ai/meta-plans-35-billion-stock-offering-to-power-ai-buildout-eyes-95-billion-total-plan-10b8947e"
+     ]
+    ],
+    "bg": [
+     "메타는 최근 실적에서 FCF 적자로 주가가 급락했다 (SK 조준기·LS).",
+     "AI 인프라와 '개인용 초지능'에 대규모 투자 중."
+    ],
+    "pts": [
+     "최대 950억 달러 조달, 그중 주식 발행 계획 포함 (WSJ 제목 기준 350억 달러 주식 발행).",
+     "엔비디아·AMD·브로드컴이 앵커 투자자로 참여 (FT).",
+     "아침 브리핑(본문 기준): 발표 후 메타 시가총액 약 1,240억 달러 감소, 나스닥 하락·美 국채 강세 — AI 투자 부담 불안이 되살아났다는 해석.",
+     "반면 WSJ 마감 기사 요약은 'Anthropic 효과로 기술주 반등'. 메타 개별 악재와 지수 흐름이 엇갈렸으니 함께 볼 것."
+    ],
+    "cmp": [
+     {
+      "tag": "확인",
+      "who": "유진 허재환",
+      "text": "빚으로 부족하면 증자 → 희석이라는 논리가 그대로 현실화."
+     },
+     {
+      "tag": "보완",
+      "who": "SK 조준기",
+      "text": "투자를 늘리는 쪽을 택한 대가가 희석이라는 점에서 'CAPEX vs FCF' 딜레마의 사례."
+     }
+    ]
+   },
+   {
+    "src": "FT · WSJ · Economist",
+    "t": "Anthropic 상장 신고서 제출, 다음 달 상장",
+    "links": [
+     [
+      "FT",
+      "https://www.ft.com/content/a6c43402-719e-4295-ae5f-541edb0aeb29"
+     ],
+     [
+      "WSJ",
+      "https://www.wsj.com/finance/stocks/u-s-stocks-rise-ahead-of-tech-earnings-d53bc5e5"
+     ],
+     [
+      "Economist",
+      "https://www.economist.com/business/2026/10/26/dont-expect-supersize-profits-from-anthropic-any-time-soon"
+     ]
+    ],
+    "bg": [
+     "AI 버블 우려로 10월 기술주가 흔들린 가운데 나온 대형 IPO."
+    ],
+    "pts": [
+     "24만 단어 분량 신고서: 폭발적 성장과 큰 손실, 8,000억 달러 데이터센터 약정 (FT).",
+     "신고서 제출 후 美 기술주 반등 — AI 버블 불안을 누그러뜨림 (WSJ).",
+     "은행·블랙스톤이 630억 달러 금융기구를 만들어 브로드컴 AI 장비를 사서 Anthropic에 임대 (WSJ).",
+     "Economist는 단기에 큰 이익을 기대하긴 어렵다고 평가."
+    ],
+    "cmp": [
+     {
+      "tag": "확인",
+      "who": "현대차 김재승",
+      "text": "11월 이벤트로 꼽은 Anthropic IPO가 일정대로 진행."
+     },
+     {
+      "tag": "보완",
+      "who": "유진 허재환",
+      "text": "AI 투자가 리스·금융기구 같은 부채성 구조로 조달된다는 점에서 '자금쟁탈전' 논리와 맞닿음."
+     },
+     {
+      "tag": "보완",
+      "who": "DB",
+      "text": "DB가 리스크로 꼽은 'Anthropic 매출 성장 둔화'와 Economist의 이익 회의론이 같은 방향."
+     }
+    ]
+   },
+   {
+    "src": "Economist",
+    "t": "AI 업계의 거대한 부채, 반도체 대폭락 가능성",
+    "links": [
+     [
+      "부채",
+      "https://www.economist.com/business/2026/10/18/the-ai-industrys-gigantic-debts-are-making-investors-nervous"
+     ],
+     [
+      "반도체",
+      "https://www.economist.com/business/2026/10/15/is-the-semiconductor-industry-headed-for-an-almighty-crash"
+     ]
+    ],
+    "bg": [
+     "10/15·10/18 기사로 오늘자는 아니지만, 오늘 리포트들의 핵심 쟁점(조달·반도체)을 정면으로 다룬다."
+    ],
+    "pts": [
+     "AI 업계의 막대한 부채가 투자자들을 불안하게 만들고 있다.",
+     "반도체 업계가 큰 폭락을 맞을지가 논점이다 (아침 브리핑 요약 기준)."
+    ],
+    "cmp": [
+     {
+      "tag": "확인",
+      "who": "유진 허재환",
+      "text": "'AI 급락은 자금조달 문제'라는 논리와 같은 진단."
+     },
+     {
+      "tag": "상충",
+      "who": "대신 · 하나 · 유안타",
+      "text": "반도체를 최선호·Core로 둔다. Economist는 반도체 사이클 하강 위험을 제기."
+     },
+     {
+      "tag": "보완",
+      "who": "DB",
+      "text": "토큰 지출 반등 전까지 반도체 신중 — Economist의 경계와 같은 방향."
+     }
+    ]
+   },
+   {
+    "src": "WSJ",
+    "t": "美 이익 증가의 34%가 AI 칩 2개사",
+    "links": [
+     [
+      "WSJ",
+      "https://www.wsj.com/finance/stocks/the-earnings-boom-is-heavily-reliant-on-just-a-handful-of-stocks-21decb53"
+     ]
+    ],
+    "bg": [
+     "S&P 500 2026년 EPS 증가율 +33–35% 전망 (대신·하나·JPM)."
+    ],
+    "pts": [
+     "엔비디아·마이크론 두 곳이 미국 기업 이익 증가의 34%.",
+     "엔비디아·마이크론 등 상위 10개사가 이익 증가의 약 3분의 2."
+    ],
+    "cmp": [
+     {
+      "tag": "보완",
+      "who": "하나 이재만",
+      "text": "이익 규모가 큰 반도체가 주도한다는 논리를 뒷받침."
+     },
+     {
+      "tag": "상충",
+      "who": "유진 허재환",
+      "text": "이익이 소수 AI 기업에 쏠린 만큼, 이들의 자금조달 문제가 시장 전체 리스크로 번질 수 있다."
+     }
+    ]
+   },
+   {
+    "src": "FT · WSJ",
+    "t": "MS, 6만 명 희망퇴직 — 올해 AI 인프라에 최대 1,750억 달러",
+    "links": [
+     [
+      "FT",
+      "https://www.ft.com/content/2ef29406-f2f8-413f-81f6-5ae098c97569"
+     ],
+     [
+      "WSJ",
+      "https://www.wsj.com/tech/microsoft-will-offer-buyouts-to-60-000-employees-4c32945f"
+     ]
+    ],
+    "bg": [
+     "MS 실적 발표는 10/28(美). 하이닉스와 같은 날."
+    ],
+    "pts": [
+     "미국·영국·캐나다·인도 일부 직원 대상 희망퇴직.",
+     "AI 인프라 지출을 최대 1,750억 달러까지 늘리는 가운데 비용 통제."
+    ],
+    "cmp": [
+     {
+      "tag": "보완",
+      "who": "신한 강진혁",
+      "text": "'MSFT를 뺀 빅테크는 FCF 적자' — MS는 인건비를 줄여 투자 재원을 마련하는 쪽."
+     },
+     {
+      "tag": "관전 포인트",
+      "who": "SK 조준기",
+      "text": "시장은 영업현금흐름이 투자보다 빨리 느는 그림을 원한다. 10/28 실적에서 확인."
+     }
+    ]
+   },
+   {
+    "src": "WSJ · FT",
+    "t": "룰라 4선, 브라질 헤알화 1999년 이후 최대 급락",
+    "links": [
+     [
+      "WSJ",
+      "https://www.wsj.com/finance/brazils-surprise-election-outcome-set-to-batter-stocks-real-35253aa8"
+     ],
+     [
+      "FT",
+      "https://www.ft.com/content/bffe028e-838d-4e74-b05e-62f6db4978db"
+     ]
+    ],
+    "bg": [
+     "룰라가 플라비우 보우소나루를 꺾고 예상 밖 승리."
+    ],
+    "pts": [
+     "헤알화 1999년 이후 최대 하락, 상파울루 증시 급락 (FT).",
+     "브라질 대표 지수 2개월 최저 (WSJ). 산탄데르 등 브라질 노출 유럽 은행 약 -4%."
+    ],
+    "cmp": [
+     {
+      "tag": "확인",
+      "who": "신한 · 미래에셋",
+      "text": "룰라 4선과 시장 급락 방향은 일치. 신한의 MSCI 브라질 시간외 -17.7%·-19.6% 수치는 외신 요약으로 확인 불가."
+     }
+    ]
+   },
+   {
+    "src": "WSJ · FT",
+    "t": "유가 하락, 하지만 '선거 후 확전' 경계",
+    "links": [
+     [
+      "WSJ",
+      "https://www.wsj.com/finance/commodities-futures/oil-declines-on-likely-technical-correction-ad4be59e"
+     ],
+     [
+      "FT",
+      "https://www.ft.com/content/7f6943d3-b089-49a7-a0bc-a6f677c09802"
+     ],
+     [
+      "WSJ 가스",
+      "https://www.wsj.com/finance/commodities-futures/european-gas-at-four-year-high-on-winter-supply-fears-b7dd5145"
+     ]
+    ],
+    "bg": [
+     "리포트들은 WTI 102–108달러, 브렌트 115–116달러를 언급 (신한·대신·유진)."
+    ],
+    "pts": [
+     "유가는 중동 외교 노력에 하락 마감. 다만 시장은 美 중간선거 후 확전 가능성을 경계 (WSJ).",
+     "이란이 사우디·파키스탄·터키 안보 당국자와 확전 방지 회의 (FT).",
+     "유럽 가스 가격 4년 만에 최고, MWh당 97유로 돌파 (WSJ)."
+    ],
+    "cmp": [
+     {
+      "tag": "확인",
+      "who": "LS · J.P. Morgan",
+      "text": "'선거 후 이란 적대행위 재개'를 단기 리스크로 꼽은 시각과 일치."
+     },
+     {
+      "tag": "보완",
+      "who": "대신 · 유진",
+      "text": "대신은 3Q27 유가 재상승, 유진은 유가 2배 시 美 침체 위험을 경고 — 에너지 리스크가 이어진다는 점에서 같은 방향."
+     }
+    ]
+   }
+  ]
+ }
 }
 </script>
 
@@ -907,6 +1627,24 @@ footer { font-size: 12px; color: var(--muted); display: grid; gap: 4px; }
     (F.extra && F.extra.length ? '<details class="more"><summary><span>리포트 논지와 관련된 외신 ' + F.extra.length + '건</span><span class="chev" aria-hidden="true">▶</span></summary><div class="fc">' +
       F.extra.map(function (o) { return row('참고', 'v-part', o.t, '', o.src); }).join('') + '</div></details>' : '') +
     '<p class="why">' + esc(F.unchecked) + '</p></section>');
+
+  if (D.deep) {
+    var tagCls = function (t) { return /상충/.test(t) ? 'conflict' : /확인|일치/.test(t) ? 'confirm' : /보완/.test(t) ? 'support' : 'note'; };
+    var cmpList = function (arr) { return '<ul class="cmp">' + arr.map(function (c) { return '<li><span class="tag ' + tagCls(c.tag) + '">' + esc(c.tag) + '</span><span><span class="who2">' + esc(c.who) + '</span> — ' + esc(c.text) + (c.src ? ' ' + links(c.src) : '') + '</span></li>'; }).join('') + '</ul>'; };
+    var bullets = function (arr) { return '<ul>' + arr.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ul>'; };
+    h.push('<section><h2>깊이 읽기 · 증권사 리포트</h2><div class="deep">' + D.deep.reports.map(function (r, i) {
+      return '<details' + (i === 0 ? ' open' : '') + '><summary><span class="bar" style="background:' + SC[r.s] + '"></span><span class="t"><b>' + esc(r.b) + ' · ' + esc(r.a) + '</b><span>「' + esc(r.t) + '」</span><span>' + esc(r.why) + '</span></span><span class="chev" aria-hidden="true">▶</span></summary><div class="body">' +
+        '<div><h4>배경</h4>' + bullets(r.bg) + '</div>' +
+        '<div><h4>애널리스트의 주장과 근거</h4><ul>' + r.claims.map(function (c) { return '<li><span class="claim">' + esc(c.c) + '</span>' + bullets(c.e) + '</li>'; }).join('') + '</ul></div>' +
+        '<div><h4>다른 자료와 비교</h4>' + cmpList(r.cmp) + '</div></div></details>';
+    }).join('') + '</div></section>');
+    h.push('<section><h2>깊이 읽기 · 외신</h2><p class="why">FT·WSJ·Economist 공개 RSS의 제목·요약 기준. 기사 본문은 링크에서 확인.</p><div class="deep">' + D.deep.news.map(function (n) {
+      return '<details><summary><span class="bar" style="background:var(--accent)"></span><span class="t"><b>' + esc(n.t) + '</b><span>' + esc(n.src) + '</span></span><span class="chev" aria-hidden="true">▶</span></summary><div class="body">' +
+        '<div><h4>배경</h4>' + bullets(n.bg) + '</div>' +
+        '<div><h4>기사 요지</h4>' + bullets(n.pts) + '<div class="ev" style="margin-top:6px">' + links(n.links) + '</div></div>' +
+        '<div><h4>리포트와 비교</h4>' + cmpList(n.cmp) + '</div></div></details>';
+    }).join('') + '</div></section>');
+  }
 
   h.push('<footer><span>' + esc(D.sources) + '</span><span>요약은 리포트 원문을 의역한 것입니다. 투자 판단의 근거로 쓰기 전에 원문을 확인하세요.</span></footer>');
 

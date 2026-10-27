@@ -27,7 +27,7 @@ FnGuide에 자동 로그인해 수집하지 않는다. 사이트가 자동 접�
 - 리포트가 사실로 제시한 외부 사건·지표·일정 (팩트체크 대상)
 
 ## 3. 팩트체크
-기준은 FT·WSJ·Economist 공개 RSS(제목·요약). `python3 -I .claude/skills/market-research/scripts/fetch_news.py` → `data/news/<날짜>.json`. 로그인하지 않는다. Barron's는 공개 피드가 없다.
+기준은 ① 예약 작업 "Morning news briefing"(본문 기반, 오늘 성공했을 때) ② FT·WSJ·Economist 공개 RSS(제목·요약). `python3 -I .claude/skills/market-research/scripts/fetch_news.py` → `data/news/<날짜>.json`. 로그인하지 않는다. Barron's는 공개 피드가 없다.
 - 판정: bad(불일치) / part(확인 필요) / ok(일치). 요약에 없는 세부 수치는 판정하지 않고 unchecked 로 둔다.
 - 전망·의견은 대상이 아니다. 리포트 문장과 외신 근거(매체·링크)를 나란히 적고, 리포트끼리도 교차검증한다.
 - 피드가 모두 실패하면 그 사실만 적는다. 다른 매체로 대체하지 않는다.
@@ -35,5 +35,6 @@ FnGuide에 자동 로그인해 수집하지 않는다. 사이트가 자동 접�
 ## 4. 브리핑 페이지 갱신
 브리핑은 문서가 아니라 페이지(Artifact) https://claude.ai/artifact/QKoaRvx6GgTPkVQ4pNSBiH 로 낸다. 원본은 `briefing/index.html`.
 - 페이지 안 `<script type="application/json" id="brief-data">` 블록의 JSON만 오늘 내용으로 바꾸고 같은 url 로 다시 게시한다. HTML/CSS/JS는 건드리지 않는다.
-- 구성: 오늘의 결론 3개 → 시각 분포 → KOSPI 밴드 → S&P 500 목표 레인지 → 의견이 갈리는 곳 → 이번 주 일정 → 증권사별 한 줄(펼치면 3개 포인트) → 팩트체크(불일치·확인 필요만 펼쳐 보이고, 일치는 접어 둠).
+- 구성: 오늘의 결론 3개 → 시각 분포 → KOSPI 밴드 → S&P 500 목표 레인지 → 의견이 갈리는 곳 → 이번 주 일정 → 증권사별 한 줄(펼치면 3개 포인트) → 팩트체크(불일치·확인 필요만 펼쳐 보이고, 일치는 접어 둠) → 깊이 읽기(증권사 리포트) → 깊이 읽기(외신).
+- 깊이 읽기: 인뎁스 자료나, 짧아도 시장 판단에 의미 있게 도움이 되는 자료(리포트 4–7건, 외신 4–7건)를 골라 `deep.reports` / `deep.news` 에 넣는다. 한 줄 요약이 아니라 배경(bg) → 애널리스트의 주장과 각 주장의 근거(claims[{c, e[]}]) → 다른 자료와 비교(cmp[{tag: 상충|부분 상충|보완|확인|외신 확인|외신 상충|관전 포인트, who, text, src}]) 순으로 불릿 정리. 외신은 bg → 기사 요지(pts) → 리포트와 비교(cmp).
 - 원칙: 모든 주장 옆에 증권사/애널리스트. 짧은 문장, 숫자는 원문 그대로. 리포트에 없는 해석은 쓰지 않는다. 범위는 `–` 로 쓴다.

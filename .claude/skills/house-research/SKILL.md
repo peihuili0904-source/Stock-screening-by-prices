@@ -48,6 +48,14 @@ Google Docs 편집 커넥터가 없어 Drive로 **새 파일 생성만** 한다.
 6. `현황판` 폴더에 상태 파일 4개(`contentMimeType: "text/plain"`, `disableConversionToGoogleType: true`)와 현황판 3개(`text/markdown`)를 만든다. 상태 파일은 결과의 `fileSize` 가 로컬 바이트 수와 같은지 확인한다.
 7. `현황판 YYYY-MM-DD` 를 `read_file_content` 로 다시 읽어 표가 깨지지 않았는지 확인한다.
 
+## 4-1. 대시보드 갱신
+대시보드 https://claude.ai/artifact/Eun9PzUVEkMyLZqzYB8r2M (Dashboard 유형, 비공개)에 첨부 파일 7개가 있다. 새 리포트를 반영해 각 파일을 새로 만들어 `asset: true` 로 올리고, 해당 `datasets/<id>` 의 `source.url`·`updated`·`edit` 를 `update` 한다. 페이지(`files/index.html`)는 그대로 둔다.
+- `reports`: `{rid, rnum, date, type, title, analyst, market, stance(긍정|중립|부정), score, basis, note_url}` — 시각은 리포트가 다루는 시장에 대한 판단
+- `points`: `{key, rid, n, point}` — 리포트당 투자 포인트 3개
+- `forecasts`: `{key, asset, horizon, h(1 단기·2 1H·3 2H·4 연간·5 이후), forecast, rid}` — 원문 수치 그대로, 시계가 다른 밴드는 줄을 나눈다
+- `narrative`: `{chapter, title, body, rids}` — 전체를 관통하는 흐름을 장별로 다시 쓴다 (해석이므로 근거 rid 를 붙인다)
+- `sectors`, `dissent`, `tp_changes`: 상태 파일에서 만든다
+
 ## 5. 보고
 바뀐 하우스뷰(의견·목표주가 변경, 새 커버리지, 하우스 내 이견), 읽지 못했거나 잘린 리포트, 노트에 있는 계산값 등 원문에 없는 내용을 짧게 보고하고 현황판을 링크한다. 저장소에는 아무것도 커밋하지 않는다 (스킬 자체를 고친 경우만 예외).
 

@@ -1,7 +1,6 @@
 __pycache__/
 data/
 
-# 자사 리서치 원본 파일은 커밋하지 않는다 (저장소가 공개 상태)
-house-research/inbox/*
-!house-research/inbox/.gitkeep
+# 자사 리서치 원본·노트는 Drive에만 둔다 (저장소가 공개 상태)
+/house-research/
 *.pdf

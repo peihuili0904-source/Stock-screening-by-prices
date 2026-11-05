@@ -34,7 +34,12 @@ def bullets(label, items):
 
 
 def source(cur):
-    return f"> 기준: {link(cur.get('as_of', ''), cur.get('note_url'))} · {cell(cur.get('analyst'))}"
+    line = f"> 기준: {link(cur.get('as_of', ''), cur.get('note_url'))} · {cell(cur.get('analyst'))}"
+    if cur.get("title"):
+        line += f" · 「{cell(cur['title'])}」"
+    if cur.get("filled_from"):
+        line += f"  \n> 일부 항목 보충: {cell(cur['filled_from'])}"
+    return line
 
 
 def section(title, items, fields, hist_cols):

@@ -1,0 +1,5 @@
+.env
+history.json
+debug/
+downloads/
+run.log

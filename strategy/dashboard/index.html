@@ -46,6 +46,20 @@
   .hv-dot.out { background: var(--cds-chart-status-critical); }
   .hv-tick { position: absolute; top: 1.75rem; font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
   .hv-cur { position: absolute; top: -0.1rem; font-size: var(--cds-font-size-caption); font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .hv-targets { display: grid; gap: var(--cds-gap-lg); min-height: 16rem; }
+  .hv-tg { display: grid; gap: var(--cds-gap-xs); }
+  .hv-tg-title { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); font-weight: 600; }
+  .hv-tg-row { display: grid; grid-template-columns: minmax(6rem, 8.5rem) 1fr; gap: var(--cds-gap-sm); align-items: center; }
+  .hv-tg-who { font-size: var(--cds-font-size-caption); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .hv-tg-who.house { font-weight: 600; }
+  .hv-tg-track { position: relative; height: 1.25rem; }
+  .hv-tg-bar { position: absolute; top: 0.375rem; height: 0.5rem; border-radius: var(--cds-radius); background: var(--cds-chart-muted); opacity: .6; }
+  .hv-tg-bar.house { background: var(--color-fg); opacity: .85; }
+  .hv-tg-dot { position: absolute; top: 0.25rem; width: 0.75rem; height: 0.75rem; margin-left: -0.375rem; border-radius: 50%; background: var(--color-panel); border: 2px solid var(--color-fg); }
+  .hv-tg-now { position: absolute; top: -0.25rem; bottom: -0.25rem; width: 0; border-left: 1px dashed var(--cds-chart-reference); }
+  .hv-tg-axis { position: relative; height: 1rem; }
+  .hv-tg-axis span { position: absolute; transform: translateX(-50%); font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .hv-pos.warn { color: var(--color-warn); font-weight: 600; }
   .hv-scroll { overflow-x: auto; }
   .hv-table { width: 100%; border-collapse: collapse; font-size: var(--cds-font-size-body); font-variant-numeric: tabular-nums; }
   .hv-table th { text-align: left; font-weight: var(--cds-font-weight-medium); color: var(--color-fg-muted); font-size: var(--cds-font-size-caption); padding: var(--cds-pad-xs) var(--cds-pad-sm); border-bottom: 1px solid var(--color-border-line); white-space: nowrap; }
@@ -78,16 +92,16 @@
   <header class="hv-head">
     <h1 class="hv-title" id="top">하우스 뷰 2026-11-05</h1>
     <p class="hv-sub">신한 리서치 골조를 유지한다. 하우스 대비 조정 <b data-draw="t-adj" data-source="summary" data-field="adjusted">—</b>건, 상향 관찰 <b data-draw="t-watch" data-source="summary" data-field="watch">—</b>건이고, 하우스가 놓친 부분은 <b data-draw="t-gaps" data-source="summary" data-field="gaps">—</b>건이다.</p>
-    <p class="hv-meta">기준: 신한투자증권 리서치 22건 · 타사 시장전략 10건 · FT·WSJ·Economist. 하우스 2027 전망 다수는 미국 중간선거(11/4) 이전 작성.</p>
+    <p class="hv-meta">기준: 신한투자증권 리서치 22건 · 타사 시장전략 46건(10/26–11/5, 15개사) · FT·WSJ·Economist. 하우스 2027 전망 다수는 미국 중간선거(11/4) 이전 작성.</p>
     <nav class="hv-nav" aria-label="섹션">
-      <button type="button" data-target="country">국가</button><button type="button" data-target="kr">국내 섹터</button><button type="button" data-target="us">미국 섹터</button><button type="button" data-target="bands">밴드 위치</button><button type="button" data-target="gaps">놓친 부분</button><button type="button" data-target="macro">매크로</button><button type="button" data-target="calendar">체크포인트</button>
+      <button type="button" data-target="peers">타사 대비</button><button type="button" data-target="country">국가</button><button type="button" data-target="kr">국내 섹터</button><button type="button" data-target="us">미국 섹터</button><button type="button" data-target="bands">밴드 위치</button><button type="button" data-target="gaps">놓친 부분</button><button type="button" data-target="macro">매크로</button><button type="button" data-target="calendar">체크포인트</button>
     </nav>
   </header>
 
   <div class="hv-tiles">
     <div class="hv-tile"><span class="hv-tile-label">국가 비중확대</span><span class="hv-tile-num" data-draw="t-cow" data-source="summary" data-field="ow_countries">—</span><span class="hv-tile-note">미국·대만</span></div>
     <div class="hv-tile"><span class="hv-tile-label">하우스 대비 조정</span><span class="hv-tile-num" data-draw="t-adj2" data-source="summary" data-field="adjusted">—</span><span class="hv-tile-note">근거 2개 이상일 때만</span></div>
-    <div class="hv-tile"><span class="hv-tile-label">상향 관찰</span><span class="hv-tile-num" data-draw="t-watch2" data-source="summary" data-field="watch">—</span><span class="hv-tile-note">인도·헬스케어·항공운송</span></div>
+    <div class="hv-tile"><span class="hv-tile-label">상향 관찰</span><span class="hv-tile-num" data-draw="t-watch2" data-source="summary" data-field="watch">—</span><span class="hv-tile-note">인도·국내 헬스케어</span></div>
     <div class="hv-tile"><span class="hv-tile-label">하우스가 놓친 부분</span><span class="hv-tile-num" data-draw="t-gaps2" data-source="summary" data-field="gaps">—</span><span class="hv-tile-note">외신·타사 근거</span></div>
   </div>
 
@@ -103,6 +117,37 @@
       <div class="hv-mix" data-draw="mix" data-source="view_mix"></div>
     </section>
   </div>
+
+  <section class="hv-section" id="peers">
+    <h2 class="hv-h2">타사 시장전략 대비 하우스 위치</h2>
+    <div class="hv-grid">
+      <div class="hv-card">
+        <h3>2027 지수 목표</h3>
+        <p class="hv-note">막대는 밴드, 점은 기본 목표, 세로선은 현재 값. 진한 막대가 하우스(신한).</p>
+        <div class="hv-targets" data-draw="targets" data-source="targets bands"></div>
+      </div>
+      <div class="hv-card">
+        <h3>섹터별 타사 선호·신중</h3>
+        <p class="hv-note">10/26–11/5 타사 리포트에서 선호 또는 신중을 밝힌 곳</p>
+        <div class="hv-scroll">
+          <table class="hv-table" data-source="peer_sectors" data-row-key="sector">
+            <thead><tr><th data-field="sector">섹터</th><th data-field="prefer">선호</th><th data-field="caution">신중</th><th data-field="final">전략팀 최종</th></tr></thead>
+            <tbody data-draw="tb-psec"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="hv-card">
+      <h3>쟁점별 비교</h3>
+      <p class="hv-note">하우스 의견을 타사 다수·소수 의견과 나란히 놓고 위치를 판단했다.</p>
+      <div class="hv-scroll">
+        <table class="hv-table" data-source="peers" data-row-key="n">
+          <thead><tr><th data-field="topic">쟁점</th><th data-field="house">하우스</th><th data-field="peer_major">타사 다수</th><th data-field="peer_minor">타사 소수</th><th data-field="position">하우스 위치</th><th data-field="action">조치</th></tr></thead>
+          <tbody data-draw="tb-peers"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
 
   <section class="hv-section" id="country">
     <h2 class="hv-h2">국가 뷰</h2>
@@ -152,10 +197,10 @@
   <section class="hv-section" id="gaps">
     <h2 class="hv-h2">하우스 리서치가 놓친 부분</h2>
     <div class="hv-card">
-      <p class="hv-note">하우스 리포트 발간 이후의 사건이거나 리포트가 다루지 않은 논점. 리포트가 틀렸다는 뜻이 아니다.</p>
+      <p class="hv-note">하우스 리포트 발간 이후의 사건이거나 리포트가 다루지 않은 논점. 리포트가 틀렸다는 뜻이 아니다. 출처는 외신, 타사, 또는 둘 다.</p>
       <div class="hv-scroll">
         <table class="hv-table" data-source="gaps" data-row-key="n">
-          <thead><tr><th data-field="n">#</th><th data-field="issue">놓친 사실·논점</th><th data-field="impact">영향</th><th data-field="action">조치</th><th data-field="source_label">근거</th></tr></thead>
+          <thead><tr><th data-field="n">#</th><th data-field="issue">놓친 사실·논점</th><th data-field="impact">영향</th><th data-field="action">조치</th><th data-field="origin">출처 유형</th><th data-field="source_label">근거</th></tr></thead>
           <tbody data-draw="tb-gaps"></tbody>
         </table>
       </div>
@@ -274,7 +319,7 @@
       if (/^https:\/\/(www\.)?(ft\.com|wsj\.com|economist\.com)\//.test(String(r.link))) {
         const a = document.createElement('a'); a.href = r.link; a.target = '_blank'; a.rel = 'noopener'; a.textContent = r.source_label; src.append(a);
       } else { src.textContent = r.source_label; }
-      tr.append(td(String(r.n)), td(r.issue, 'hv-wide'), td(r.impact, 'hv-mid'), td(act, 'hv-act ' + (act === '조정' ? 'adj' : 'keep')), src);
+      tr.append(td(String(r.n)), td(r.issue, 'hv-wide'), td(r.impact, 'hv-mid'), td(act, 'hv-act ' + (act === '조정' ? 'adj' : 'keep')), td(r.origin), src);
       return tr;
     }));
   });
@@ -290,6 +335,65 @@
   });
   hvSimpleTable('tb-macro', 'macro', 'variable', ['variable', 'house_view', 'current', 'source'], ['house_view', 'current']);
   hvSimpleTable('tb-cal', 'checkpoints', 'event', ['date', 'event', 'why'], ['event', 'why']);
+
+  dash.draw('tb-peers', (tb) => {
+    const d = dash.data('peers');
+    if (d.status !== 'ok') { tb.replaceChildren(); return; }
+    tb.replaceChildren(...d.data.map((r) => {
+      const tr = document.createElement('tr'); tr.dataset.key = String(r.n);
+      const td = (text, cls) => { const c = document.createElement('td'); if (cls) c.className = cls; c.textContent = text; return c; };
+      const pos = String(r.position), act = String(r.action);
+      tr.append(td(r.topic, 'hv-name'), td(r.house, 'hv-mid'), td(r.peer_major, 'hv-wide'), td(r.peer_minor, 'hv-mid'),
+        td(pos, 'hv-pos' + (pos === '동조' ? '' : ' warn')), td(act, 'hv-act ' + (act === '조정' ? 'adj' : 'keep')));
+      return tr;
+    }));
+  });
+
+  dash.draw('tb-psec', (tb) => {
+    const d = dash.data('peer_sectors');
+    if (d.status !== 'ok') { tb.replaceChildren(); return; }
+    tb.replaceChildren(...d.data.map((r) => {
+      const tr = document.createElement('tr'); tr.dataset.key = String(r.sector);
+      const td = (text, cls) => { const c = document.createElement('td'); if (cls) c.className = cls; c.textContent = text; return c; };
+      tr.append(td(r.sector, 'hv-name'), td(r.prefer, 'hv-mid'), td(r.caution, 'hv-mid'), td(r.final, 'hv-name'));
+      return tr;
+    }));
+  });
+
+  dash.draw('targets', (el) => {
+    const t = dash.data('targets'), b = dash.data('bands');
+    if (t.status !== 'ok') { el.replaceChildren(); if (t.status === 'error') hvFailed(el); return; }
+    const nowOf = { 'KOSPI': null, 'S&P 500': null };
+    if (b.status === 'ok') b.data.forEach((r) => { if (r.horizon === '2027년' && r.name in nowOf) nowOf[r.name] = Number(r.current); });
+    const groups = d3.groups(t.data, (r) => r.idx);
+    el.replaceChildren(...groups.map(([idx, rows]) => {
+      const vals = rows.flatMap((r) => [r.low, r.high, r.base]).filter((v) => v != null).map(Number);
+      if (nowOf[idx] != null) vals.push(nowOf[idx]);
+      const x = d3.scaleLinear([d3.min(vals), d3.max(vals)], [3, 97]).nice();
+      const g = document.createElement('div'); g.className = 'hv-tg';
+      const title = document.createElement('div'); title.className = 'hv-tg-title';
+      title.textContent = idx + (nowOf[idx] != null ? ' · 현재 ' + d3.format(',.0f')(nowOf[idx]) : '');
+      g.append(title);
+      rows.forEach((r) => {
+        const row = document.createElement('div'); row.className = 'hv-tg-row';
+        const who = document.createElement('div'); who.className = 'hv-tg-who' + (r.house ? ' house' : '');
+        const parts = [];
+        if (r.base != null) parts.push(d3.format(',')(r.base));
+        if (r.low != null) parts.push(d3.format(',')(r.low) + '–' + d3.format(',')(r.high));
+        who.textContent = r.who + ' ' + parts.join(' / ');
+        const tr = document.createElement('div'); tr.className = 'hv-tg-track';
+        if (r.low != null) { const bar = document.createElement('div'); bar.className = 'hv-tg-bar' + (r.house ? ' house' : ''); bar.style.left = x(r.low) + '%'; bar.style.width = (x(r.high) - x(r.low)) + '%'; tr.append(bar); }
+        if (r.base != null) { const dot = document.createElement('div'); dot.className = 'hv-tg-dot'; dot.style.left = x(r.base) + '%'; tr.append(dot); }
+        if (nowOf[idx] != null) { const n = document.createElement('div'); n.className = 'hv-tg-now'; n.style.left = x(nowOf[idx]) + '%'; tr.append(n); }
+        row.append(who, tr); g.append(row);
+      });
+      const axRow = document.createElement('div'); axRow.className = 'hv-tg-row';
+      const ax = document.createElement('div'); ax.className = 'hv-tg-axis';
+      x.ticks(4).forEach((v) => { const s = document.createElement('span'); s.style.left = x(v) + '%'; s.textContent = d3.format(',')(v); ax.append(s); });
+      axRow.append(document.createElement('div'), ax); g.append(axRow);
+      return g;
+    }));
+  });
 
   dash.draw('mix', (el) => {
     const d = dash.data('view_mix');

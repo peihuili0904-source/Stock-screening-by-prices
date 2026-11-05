@@ -11,7 +11,7 @@ description: 자산운용사 주식투자전략 일일 루틴. Drive '신한리�
 | 자료 | 조회 |
 |---|---|
 | 회사 리서치 | `search_files`: `parentId = '1lwsoUxQnX0LcTWo2lviPLaPKZsToRGvN' and createdTime > '<직전 실행 시각 UTC>'`. 파일명 `신한투자증권_<카테고리>_<제목>_YYYYMMDD.pdf`. ` (1).pdf` 중복본은 제외 |
-| 타사 시장전략 | `parentId = '1MgqvsYEPdG05oBmor4DqE-LkrB-M3oay'` 같은 조건. 폴더·신한 파일은 제외 |
+| 타사 시장전략 | **하우스 리포트와 같은 기간 전체**(가장 오래된 하우스 리포트 발간일부터). `parentId = '1MgqvsYEPdG05oBmor4DqE-LkrB-M3oay'`에서 신한 파일·폴더를 빼고 찾는다. Drive에서 지워진 이전 리포트는 기존 브리핑 기록(`briefing/index.html`의 brief-data JSON과 git 이력, `reports/*.md`)에서 가져온다 |
 | 외신 | ① 예약 작업 `trig_01QAUD51gvmjVVXUxPC2WHRq` → `last_run.session_id` → `list_events(kinds=["result"])` ② `python3 -I .claude/skills/market-research/scripts/fetch_news.py --hours 48 --out data/news/<날짜>.json` |
 | 직전 하우스 뷰 | `strategy/house-view.md` |
 
@@ -36,7 +36,11 @@ description: 자산운용사 주식투자전략 일일 루틴. Drive '신한리�
 5. 매크로 → 국가·섹터 전달 경로를 한 줄씩 (예: "금리 고원 → 밸류 부담 큰 장기 성장주 중립")
 
 ## 3. 검증·보완
-- **타사**: 하우스 뷰가 컨센서스 대비 어디에 있는지(동조/역행), 타사만 지적한 논점.
+- **타사**(필수, 외신과 같은 비중):
+  - 지수 목표 비교표: 하우스 vs 타사, KOSPI·S&P 500.
+  - 쟁점별 표: 하우스 / 타사 다수 / 타사 소수 / 위치(동조·중간·부분 역행·하우스 과소평가·하우스 공백) / 조치.
+  - 섹터별 타사 선호·신중 집계.
+  - 타사만 지적한 논점은 "놓친 부분"에 출처 유형 '타사'로 넣는다.
 - **외신**: 하우스 리포트 발간일 이후 사건, 리포트가 다루지 않은 리스크·기회. 각 항목에 "영향 받는 국가/섹터"와 "하우스 뷰 조정 여부(유지/조정/관찰)"를 붙인다.
 - 리포트끼리, 리포트와 외신 사이 수치가 다르면 표로 남긴다.
 

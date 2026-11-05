@@ -43,6 +43,11 @@ description: 자산운용사 주식투자전략 일일 루틴. Drive '신한리�
 ## 4. 산출
 - `strategy/daily/YYYY-MM-DD.md` (템플릿 `references/daily-template.md`)
 - `strategy/house-view.md` 갱신: 상단 현재 뷰 표 교체, 하단 "변경 이력"에 날짜·변경·사유 추가
+- 대시보드 갱신: https://claude.ai/artifact/VdyNY9ZkP9n3mYxyfNzSd6 (Dashboard 타입). 원본은 `strategy/dashboard/`.
+  - 데이터 JSON 6개(views·bands·macro·gaps·checkpoints·takeaways)를 오늘 내용으로 고친다.
+  - 각 파일을 Artifact `asset: true`로 업로드한다.
+  - `ArtifactData` update로 `datasets/<id>`의 `source.url`·`updated`·`edit`를 바꾼다(`if_version` 필수).
+  - 제목의 날짜가 바뀌면 `files/index.html`의 `<h1>`도 `str_replace`로 고친다.
 - 커밋 후 지정 브랜치에 push.
 
 ## 원칙

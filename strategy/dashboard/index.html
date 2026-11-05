@@ -1,0 +1,349 @@
+<meta name="dash-one-writer">
+<style>
+  .hv { display: grid; gap: var(--cds-gap-xl); font-family: var(--font-anthropic-sans); }
+  .hv-head { display: grid; gap: var(--cds-gap-sm); }
+  .hv-title { font-family: var(--font-anthropic-serif); font-weight: 400; font-size: var(--cds-font-size-title); margin: 0; text-wrap: balance; }
+  .hv-sub { color: var(--color-fg-muted); font-size: var(--cds-font-size-body); margin: 0; max-width: 70ch; }
+  .hv-sub b { font-weight: 600; font-variant-numeric: tabular-nums; }
+  .hv-meta { color: var(--color-fg-muted); font-size: var(--cds-font-size-caption); margin: 0; }
+  .hv-tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 10rem), 1fr)); gap: var(--cds-gap-md); }
+  .hv-tile { display: grid; gap: var(--cds-gap-xs); padding: var(--cds-pad-md) var(--cds-pad-lg); background: var(--color-panel); border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); }
+  .hv-tile-label { color: var(--color-fg-muted); font-size: var(--cds-font-size-caption); }
+  .hv-tile-num { font-family: var(--font-anthropic-serif); font-weight: 400; font-size: var(--cds-font-size-title); font-variant-numeric: tabular-nums; line-height: 1.1; }
+  .hv-tile-note { color: var(--color-fg-muted); font-size: var(--cds-font-size-caption); }
+  .hv-section { display: grid; gap: var(--cds-gap-md); scroll-margin-top: var(--cds-pad-lg); }
+  .hv-h2 { font-size: var(--cds-font-size-heading); font-weight: var(--cds-font-weight-medium); margin: 0; }
+  .hv-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr)); gap: var(--cds-gap-md); }
+  .hv-card { display: grid; gap: var(--cds-gap-sm); align-content: start; min-width: 0; background: var(--color-panel); border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); padding: var(--cds-pad-lg); }
+  .hv-card h3 { font-size: var(--cds-font-size-heading); font-weight: var(--cds-font-weight-medium); margin: 0; }
+  .hv-note { color: var(--color-fg-muted); font-size: var(--cds-font-size-caption); margin: 0; }
+  .hv-take { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--cds-gap-md); counter-reset: hv; }
+  .hv-take li { display: grid; grid-template-columns: 1.75rem 1fr; gap: var(--cds-gap-sm); counter-increment: hv; }
+  .hv-take li::before { content: counter(hv); font-family: var(--font-anthropic-serif); font-size: var(--cds-font-size-heading); color: var(--color-fg-muted); line-height: 1.3; }
+  .hv-take-body { display: grid; gap: var(--cds-gap-xs); min-width: 0; }
+  .hv-take .hv-take-title { font-weight: 600; }
+  .hv-take-text { color: var(--color-fg-muted); line-height: 1.55; }
+  .hv-legend { display: flex; flex-wrap: wrap; gap: var(--cds-gap-md); font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); margin: 0; padding: 0; list-style: none; }
+  .hv-legend li { display: inline-flex; align-items: center; gap: var(--cds-gap-xs); }
+  .hv-sw { width: 0.625rem; height: 0.625rem; border-radius: 2px; display: inline-block; }
+  .hv-sw-ow { background: var(--color-ok); }
+  .hv-sw-n { background: var(--cds-chart-muted); }
+  .hv-sw-uw { background: var(--color-bad); }
+  .hv-mix { min-height: 8rem; }
+  .hv-mix .seg-ow { fill: var(--color-ok); }
+  .hv-mix .seg-n { fill: var(--cds-chart-muted); }
+  .hv-mix .seg-uw { fill: var(--color-bad); }
+  .hv-mix text { font-size: var(--cds-font-size-caption); fill: var(--color-fg); font-variant-numeric: tabular-nums; }
+  .hv-mix .seg-label { fill: var(--color-bg); font-weight: 600; }
+  .hv-bands { display: grid; gap: var(--cds-gap-md); min-height: 20rem; }
+  .hv-band { display: grid; grid-template-columns: minmax(6.5rem, 9rem) 1fr; gap: var(--cds-gap-md); align-items: center; }
+  .hv-band-name { font-size: var(--cds-font-size-body); line-height: 1.25; }
+  .hv-band-name small { display: block; color: var(--color-fg-muted); font-size: var(--cds-font-size-caption); }
+  .hv-track { position: relative; height: 2.75rem; }
+  .hv-rail { position: absolute; left: 0; right: 0; top: 1.25rem; height: 2px; background: var(--cds-chart-grid); }
+  .hv-range { position: absolute; top: 1rem; height: 0.625rem; background: var(--cds-chart-muted); border-radius: var(--cds-radius); opacity: .55; }
+  .hv-dot { position: absolute; top: 0.95rem; width: 0.75rem; height: 0.75rem; margin-left: -0.375rem; border-radius: 50%; background: var(--color-fg); border: 2px solid var(--color-panel); }
+  .hv-dot.out { background: var(--cds-chart-status-critical); }
+  .hv-tick { position: absolute; top: 1.75rem; font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .hv-cur { position: absolute; top: -0.1rem; font-size: var(--cds-font-size-caption); font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .hv-scroll { overflow-x: auto; }
+  .hv-table { width: 100%; border-collapse: collapse; font-size: var(--cds-font-size-body); font-variant-numeric: tabular-nums; }
+  .hv-table th { text-align: left; font-weight: var(--cds-font-weight-medium); color: var(--color-fg-muted); font-size: var(--cds-font-size-caption); padding: var(--cds-pad-xs) var(--cds-pad-sm); border-bottom: 1px solid var(--color-border-line); white-space: nowrap; }
+  .hv-table td { padding: var(--cds-pad-sm); border-bottom: 1px solid var(--color-border-line); vertical-align: top; line-height: 1.45; }
+  .hv-table td.hv-wide { min-width: 16rem; color: var(--color-fg-muted); }
+  .hv-table td.hv-name { font-weight: 600; white-space: nowrap; }
+  .hv-table td.hv-mid { min-width: 9rem; }
+  .hv-chip { display: inline-block; min-width: 2.25rem; text-align: center; padding: 0 var(--cds-pad-xs); border: 1px solid currentColor; border-radius: var(--cds-radius); font-size: var(--cds-font-size-caption); font-weight: 600; line-height: 1.6; }
+  .hv-chip.ow { color: var(--color-ok); }
+  .hv-chip.n { color: var(--color-fg-muted); }
+  .hv-chip.uw { color: var(--color-bad); }
+  .hv-chg.up { color: var(--color-ok); font-weight: 600; }
+  .hv-chg.down { color: var(--color-bad); font-weight: 600; }
+  .hv-chg.same { color: var(--color-fg-muted); }
+  .hv-act { font-weight: 600; white-space: nowrap; }
+  .hv-act.adj { color: var(--color-warn); }
+  .hv-act.keep { color: var(--color-fg-muted); }
+  .hv-table a { color: inherit; }
+  .hv-nav { display: flex; flex-wrap: wrap; gap: var(--cds-gap-sm); }
+  .hv-nav button { font: inherit; background: transparent; cursor: pointer; font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); text-decoration: none; border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); padding: 2px var(--cds-pad-sm); }
+  .hv-nav button:hover, .hv-nav button:focus-visible { color: var(--color-fg); border-color: var(--color-fg-muted); }
+  .hv-failed { display: flex; align-items: center; justify-content: center; gap: var(--cds-gap-xs); color: var(--color-fg-muted); font-size: var(--cds-font-size-caption); min-height: inherit; }
+  .hv-failed::before { content: ""; width: 0.375rem; height: 0.375rem; border-radius: 50%; background: var(--color-bad); }
+  [data-dash-source-state=empty] { color: transparent; }
+  [data-dash-source-state=refreshing] { opacity: .5; transition: opacity var(--cds-dur-slow); }
+  @media (max-width: 30rem) { .hv-band { grid-template-columns: 1fr; gap: var(--cds-gap-xs); } }
+</style>
+
+<div class="hv">
+  <header class="hv-head">
+    <h1 class="hv-title" id="top">하우스 뷰 2026-11-05</h1>
+    <p class="hv-sub">신한 리서치 골조를 유지한다. 하우스 대비 조정 <b data-draw="t-adj" data-source="summary" data-field="adjusted">—</b>건, 상향 관찰 <b data-draw="t-watch" data-source="summary" data-field="watch">—</b>건이고, 하우스가 놓친 부분은 <b data-draw="t-gaps" data-source="summary" data-field="gaps">—</b>건이다.</p>
+    <p class="hv-meta">기준: 신한투자증권 리서치 22건 · 타사 시장전략 10건 · FT·WSJ·Economist. 하우스 2027 전망 다수는 미국 중간선거(11/4) 이전 작성.</p>
+    <nav class="hv-nav" aria-label="섹션">
+      <button type="button" data-target="country">국가</button><button type="button" data-target="kr">국내 섹터</button><button type="button" data-target="us">미국 섹터</button><button type="button" data-target="bands">밴드 위치</button><button type="button" data-target="gaps">놓친 부분</button><button type="button" data-target="macro">매크로</button><button type="button" data-target="calendar">체크포인트</button>
+    </nav>
+  </header>
+
+  <div class="hv-tiles">
+    <div class="hv-tile"><span class="hv-tile-label">국가 비중확대</span><span class="hv-tile-num" data-draw="t-cow" data-source="summary" data-field="ow_countries">—</span><span class="hv-tile-note">미국·대만</span></div>
+    <div class="hv-tile"><span class="hv-tile-label">하우스 대비 조정</span><span class="hv-tile-num" data-draw="t-adj2" data-source="summary" data-field="adjusted">—</span><span class="hv-tile-note">근거 2개 이상일 때만</span></div>
+    <div class="hv-tile"><span class="hv-tile-label">상향 관찰</span><span class="hv-tile-num" data-draw="t-watch2" data-source="summary" data-field="watch">—</span><span class="hv-tile-note">인도·헬스케어·항공운송</span></div>
+    <div class="hv-tile"><span class="hv-tile-label">하우스가 놓친 부분</span><span class="hv-tile-num" data-draw="t-gaps2" data-source="summary" data-field="gaps">—</span><span class="hv-tile-note">외신·타사 근거</span></div>
+  </div>
+
+  <div class="hv-grid">
+    <section class="hv-card" id="takeaways">
+      <h3>오늘의 결론</h3>
+      <ol class="hv-take" data-draw="takeaways" data-source="takeaways"></ol>
+    </section>
+    <section class="hv-card" id="mix">
+      <h3>뷰 분포</h3>
+      <p class="hv-note">전략팀 최종 의견 기준, 항목 수</p>
+      <ul class="hv-legend"><li><span class="hv-sw hv-sw-ow"></span>비중확대(OW)</li><li><span class="hv-sw hv-sw-n"></span>중립(N)</li><li><span class="hv-sw hv-sw-uw"></span>비중축소(UW)</li></ul>
+      <div class="hv-mix" data-draw="mix" data-source="view_mix"></div>
+    </section>
+  </div>
+
+  <section class="hv-section" id="country">
+    <h2 class="hv-h2">국가 뷰</h2>
+    <div class="hv-card">
+      <p class="hv-note">하우스 = 신한 리서치 원문 의견. 최종 = 전략팀 판단. 변화 기호는 하우스 대비.</p>
+      <div class="hv-scroll">
+        <table class="hv-table" data-source="views" data-row-key="scope,name">
+          <thead><tr><th data-field="name">국가</th><th data-field="final">최종</th><th data-field="final_note">메모</th><th data-field="change">변화</th><th data-field="house">하우스 의견</th><th data-field="rationale">근거</th><th data-field="extra">리스크</th></tr></thead>
+          <tbody data-draw="tb-country"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="hv-section" id="kr">
+    <h2 class="hv-h2">국내 섹터 뷰</h2>
+    <div class="hv-card">
+      <div class="hv-scroll">
+        <table class="hv-table" data-source="views" data-row-key="scope,name">
+          <thead><tr><th data-field="name">섹터</th><th data-field="final">최종</th><th data-field="final_note">메모</th><th data-field="change">변화</th><th data-field="house">하우스 의견</th><th data-field="rationale">근거</th><th data-field="extra">탑픽(하우스)</th></tr></thead>
+          <tbody data-draw="tb-kr"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="hv-section" id="us">
+    <h2 class="hv-h2">미국 섹터 뷰</h2>
+    <div class="hv-card">
+      <div class="hv-scroll">
+        <table class="hv-table" data-source="views" data-row-key="scope,name">
+          <thead><tr><th data-field="name">섹터</th><th data-field="final">최종</th><th data-field="final_note">메모</th><th data-field="change">변화</th><th data-field="house">하우스 의견</th><th data-field="rationale">근거</th><th data-field="extra">관련 ETF·종목</th></tr></thead>
+          <tbody data-draw="tb-us"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="hv-section" id="bands">
+    <h2 class="hv-h2">하우스 밴드 안에서 지금 어디인가</h2>
+    <div class="hv-card">
+      <p class="hv-note">회색 막대는 신한이 제시한 밴드, 점은 현재 값. 밴드를 벗어나면 붉은 점.</p>
+      <div class="hv-bands" data-draw="bands" data-source="bands band_pos"></div>
+    </div>
+  </section>
+
+  <section class="hv-section" id="gaps">
+    <h2 class="hv-h2">하우스 리서치가 놓친 부분</h2>
+    <div class="hv-card">
+      <p class="hv-note">하우스 리포트 발간 이후의 사건이거나 리포트가 다루지 않은 논점. 리포트가 틀렸다는 뜻이 아니다.</p>
+      <div class="hv-scroll">
+        <table class="hv-table" data-source="gaps" data-row-key="n">
+          <thead><tr><th data-field="n">#</th><th data-field="issue">놓친 사실·논점</th><th data-field="impact">영향</th><th data-field="action">조치</th><th data-field="source_label">근거</th></tr></thead>
+          <tbody data-draw="tb-gaps"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <div class="hv-grid">
+    <section class="hv-card" id="macro">
+      <h3>하우스 매크로 골조</h3>
+      <div class="hv-scroll">
+        <table class="hv-table" data-source="macro" data-row-key="variable">
+          <thead><tr><th data-field="variable">변수</th><th data-field="house_view">하우스 전망</th><th data-field="current">현재</th><th data-field="source">출처</th></tr></thead>
+          <tbody data-draw="tb-macro"></tbody>
+        </table>
+      </div>
+    </section>
+    <section class="hv-card" id="calendar">
+      <h3>체크포인트</h3>
+      <div class="hv-scroll">
+        <table class="hv-table" data-source="checkpoints" data-row-key="event">
+          <thead><tr><th data-field="date">일자</th><th data-field="event">이벤트</th><th data-field="why">왜 보나</th></tr></thead>
+          <tbody data-draw="tb-cal"></tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll('.hv-nav button').forEach((b) => b.addEventListener('click', () => {
+    const el = document.getElementById(b.dataset.target);
+    if (el) { el.scrollIntoView({ behavior: 'smooth', block: 'start' }); dash.setLink(el.id); }
+  }));
+  dash.calc('summary', {
+    title: '조정·관찰·누락 집계',
+    description: '하우스 대비 조정(▲·▼), 상향 관찰, 놓친 부분, 국가 OW 수를 센다.',
+    inputs: ['views', 'gaps'],
+    fn: (views, gaps) => [{
+      adjusted: views.filter((r) => r.change === '▲' || r.change === '▼').length,
+      watch: views.filter((r) => String(r.change).includes('관찰')).length,
+      gaps: gaps.length,
+      ow_countries: views.filter((r) => r.scope === '국가' && r.final === 'OW').length,
+    }],
+  });
+
+  dash.calc('view_mix', {
+    title: '범위별 뷰 분포',
+    description: '국가·국내 섹터·미국 섹터마다 최종 의견 OW·N·UW 개수.',
+    inputs: ['views'],
+    fn: (views) => ['국가', '국내 섹터', '미국 섹터'].map((scope) => {
+      const rows = views.filter((r) => r.scope === scope);
+      return { scope, OW: rows.filter((r) => r.final === 'OW').length, N: rows.filter((r) => r.final === 'N').length, UW: rows.filter((r) => r.final === 'UW').length };
+    }),
+  });
+
+  dash.calc('band_pos', {
+    title: '밴드 내 위치',
+    description: '(현재 − 하단) ÷ (상단 − 하단). 0이면 하단, 1이면 상단.',
+    inputs: ['bands'],
+    fn: (bands) => bands.map((b) => ({ key: b.key, position: (Number(b.current) - Number(b.low)) / (Number(b.high) - Number(b.low)) })),
+  });
+
+  const hvFailed = (el) => { const s = document.createElement('div'); s.className = 'hv-failed'; s.textContent = '불러오지 못함'; el.replaceChildren(s); };
+
+  const hvNum = (draw, field) => dash.draw(draw, (el) => {
+    const d = dash.data('summary');
+    el.textContent = d.status === 'ok' && d.data[0] ? String(d.data[0][field]) : '—';
+  });
+  hvNum('t-adj', 'adjusted'); hvNum('t-adj2', 'adjusted');
+  hvNum('t-watch', 'watch'); hvNum('t-watch2', 'watch');
+  hvNum('t-gaps', 'gaps'); hvNum('t-gaps2', 'gaps');
+  hvNum('t-cow', 'ow_countries');
+
+  dash.draw('takeaways', (el) => {
+    const d = dash.data('takeaways');
+    if (d.status !== 'ok') { el.replaceChildren(); if (d.status === 'error') hvFailed(el); return; }
+    el.replaceChildren(...d.data.map((r, i) => {
+      const li = document.createElement('li');
+      const body = document.createElement('div'); body.className = 'hv-take-body';
+      const t = document.createElement('span'); t.className = 'hv-take-title'; t.textContent = r.title;
+      t.dataset.source = 'takeaways'; t.dataset.row = String(i); t.dataset.field = 'title';
+      const x = document.createElement('span'); x.className = 'hv-take-text'; x.textContent = r.text;
+      x.dataset.source = 'takeaways'; x.dataset.row = String(i); x.dataset.field = 'text';
+      body.append(t, x); li.append(body); return li;
+    }));
+  });
+
+  const hvKey = (...parts) => parts.map((p) => encodeURIComponent(String(p))).join(',');
+  const hvViewTable = (draw, scope) => dash.draw(draw, (tb) => {
+    const d = dash.data('views');
+    if (d.status !== 'ok') { tb.replaceChildren(); return; }
+    const rows = d.data.filter((r) => r.scope === scope).sort((a, b) => a.order - b.order);
+    tb.replaceChildren(...rows.map((r) => {
+      const tr = document.createElement('tr'); tr.dataset.key = hvKey(r.scope, r.name);
+      const td = (text, cls) => { const c = document.createElement('td'); if (cls) c.className = cls; c.textContent = text; return c; };
+      const fin = document.createElement('td');
+      const chip = document.createElement('span'); chip.className = 'hv-chip ' + String(r.final).toLowerCase(); chip.textContent = r.final; fin.append(chip);
+      const chg = String(r.change);
+      const chgCls = 'hv-chg ' + (chg.startsWith('▲') ? 'up' : chg.startsWith('▼') ? 'down' : 'same');
+      tr.append(td(r.name, 'hv-name'), fin, td(r.final_note), td(chg, chgCls), td(r.house, 'hv-mid'), td(r.rationale, 'hv-wide'), td(r.extra, 'hv-mid'));
+      return tr;
+    }));
+  });
+  hvViewTable('tb-country', '국가');
+  hvViewTable('tb-kr', '국내 섹터');
+  hvViewTable('tb-us', '미국 섹터');
+
+  dash.draw('tb-gaps', (tb) => {
+    const d = dash.data('gaps');
+    if (d.status !== 'ok') { tb.replaceChildren(); return; }
+    tb.replaceChildren(...d.data.map((r) => {
+      const tr = document.createElement('tr'); tr.dataset.key = String(r.n);
+      const td = (text, cls) => { const c = document.createElement('td'); if (cls) c.className = cls; c.textContent = text; return c; };
+      const act = String(r.action);
+      const src = document.createElement('td');
+      if (/^https:\/\/(www\.)?(ft\.com|wsj\.com|economist\.com)\//.test(String(r.link))) {
+        const a = document.createElement('a'); a.href = r.link; a.target = '_blank'; a.rel = 'noopener'; a.textContent = r.source_label; src.append(a);
+      } else { src.textContent = r.source_label; }
+      tr.append(td(String(r.n)), td(r.issue, 'hv-wide'), td(r.impact, 'hv-mid'), td(act, 'hv-act ' + (act === '조정' ? 'adj' : 'keep')), src);
+      return tr;
+    }));
+  });
+
+  const hvSimpleTable = (draw, id, key, fields, wide) => dash.draw(draw, (tb) => {
+    const d = dash.data(id);
+    if (d.status !== 'ok') { tb.replaceChildren(); return; }
+    tb.replaceChildren(...d.data.map((r) => {
+      const tr = document.createElement('tr'); tr.dataset.key = String(r[key]);
+      fields.forEach((f, i) => { const c = document.createElement('td'); c.textContent = r[f]; if (i === 0) c.className = 'hv-name'; else if (wide.includes(f)) c.className = 'hv-mid'; tr.append(c); });
+      return tr;
+    }));
+  });
+  hvSimpleTable('tb-macro', 'macro', 'variable', ['variable', 'house_view', 'current', 'source'], ['house_view', 'current']);
+  hvSimpleTable('tb-cal', 'checkpoints', 'event', ['date', 'event', 'why'], ['event', 'why']);
+
+  dash.draw('mix', (el) => {
+    const d = dash.data('view_mix');
+    if (d.status !== 'ok') { el.replaceChildren(); if (d.status === 'error') hvFailed(el); return; }
+    const W = Math.max(280, el.clientWidth || 320), rowH = 28, gap = 14;
+    const svg = d3.create('svg').attr('width', '100%').attr('viewBox', `0 0 ${W} ${d.data.length * (rowH + gap)}`).attr('role', 'img').attr('aria-label', '범위별 OW·N·UW 개수');
+    const probe = svg.append('g');
+    const labels = d.data.map((r) => r.scope);
+    el.replaceChildren(svg.node());
+    let labelW = 0;
+    labels.forEach((t) => { const n = probe.append('text').text(t); labelW = Math.max(labelW, n.node().getComputedTextLength()); n.remove(); });
+    labelW = Math.ceil(labelW) + 12;
+    const max = d3.max(d.data, (r) => r.OW + r.N + r.UW) || 1;
+    const x = d3.scaleLinear([0, max], [0, W - labelW - 4]);
+    d.data.forEach((r, i) => {
+      const g = svg.append('g').attr('transform', `translate(0, ${i * (rowH + gap)})`);
+      g.append('text').attr('x', 0).attr('y', rowH / 2).attr('dy', '0.35em').text(r.scope);
+      let acc = 0;
+      [['OW', 'seg-ow'], ['N', 'seg-n'], ['UW', 'seg-uw']].forEach(([k, cls]) => {
+        const v = r[k]; if (!v) return;
+        const x0 = labelW + x(acc), w = Math.max(0, x(v) - 2);
+        g.append('rect').attr('class', cls).attr('x', x0).attr('y', 0).attr('width', w).attr('height', rowH).attr('rx', 3);
+        if (w > 18) g.append('text').attr('class', 'seg-label').attr('x', x0 + w / 2).attr('y', rowH / 2).attr('dy', '0.35em').attr('text-anchor', 'middle').text(String(v));
+        acc += v;
+      });
+    });
+  });
+
+  dash.draw('bands', (el) => {
+    const b = dash.data('bands'), p = dash.data('band_pos');
+    if (b.status !== 'ok') { el.replaceChildren(); if (b.status === 'error') hvFailed(el); return; }
+    const pos = new Map((p.status === 'ok' ? p.data : []).map((r) => [r.key, r.position]));
+    const fmt = (v, unit) => (unit === '%' ? d3.format('.2f')(v) + '%' : d3.format(',.4~f')(v));
+    el.replaceChildren(...b.data.map((r) => {
+      const lo = Number(r.low), hi = Number(r.high), cur = Number(r.current);
+      const pad = (hi - lo) * 0.3;
+      const dmin = Math.min(lo - pad, cur), dmax = Math.max(hi + pad, cur);
+      const s = d3.scaleLinear([dmin, dmax], [2, 98]);
+      const row = document.createElement('div'); row.className = 'hv-band';
+      const name = document.createElement('div'); name.className = 'hv-band-name'; name.textContent = r.name;
+      const sm = document.createElement('small');
+      const pv = pos.get(r.key);
+      sm.textContent = r.horizon + (pv == null ? '' : ' · 밴드 내 ' + d3.format('.0%')(pv));
+      name.append(sm);
+      const track = document.createElement('div'); track.className = 'hv-track';
+      const rail = document.createElement('div'); rail.className = 'hv-rail';
+      const range = document.createElement('div'); range.className = 'hv-range'; range.style.left = s(lo) + '%'; range.style.width = (s(hi) - s(lo)) + '%';
+      const dot = document.createElement('div'); dot.className = 'hv-dot' + (cur < lo || cur > hi ? ' out' : ''); dot.style.left = s(cur) + '%';
+      const tLo = document.createElement('span'); tLo.className = 'hv-tick'; tLo.style.left = s(lo) + '%'; tLo.style.transform = 'translateX(-50%)'; tLo.textContent = fmt(lo, r.unit);
+      const tHi = document.createElement('span'); tHi.className = 'hv-tick'; tHi.style.left = s(hi) + '%'; tHi.style.transform = 'translateX(-50%)'; tHi.textContent = fmt(hi, r.unit);
+      const c = document.createElement('span'); c.className = 'hv-cur'; c.style.left = s(cur) + '%'; c.style.transform = s(cur) > 80 ? 'translateX(-100%)' : s(cur) < 20 ? 'none' : 'translateX(-50%)'; c.textContent = fmt(cur, r.unit);
+      track.append(rail, range, dot, tLo, tHi, c);
+      row.append(name, track);
+      return row;
+    }));
+  });
+</script>

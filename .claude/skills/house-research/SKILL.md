@@ -73,6 +73,7 @@ Google Docs 편집 커넥터가 없어 Drive로 **새 파일 생성만** 한다.
 - 일간 자료(신한 생각, 주간 시황)만 들어온 날은 리포트 카드·장부·외신 대조만 추가하고 내러티브·섹터 표는 손대지 않는다.
 - 각 데이터 파일을 새로 만들어 `asset: true` 로 올리고 해당 `datasets/<id>` 의 `source.url`·`updated`·`edit` 를 `update` 한다. 페이지(`files/index.html`)는 새 탭·표가 필요할 때만 고친다.
 - 데이터 파일: `reports`, `points`, `forecasts`, `narrative`, `sectors`, `dissent`, `tp_changes`, `ledger`, `depth`, `depth_meta`, `depth_charts`, `news_check`
+- `reports` 의 `pdf_url` 은 원문 PDF(`https://drive.google.com/file/d/<source_id>/view`)다. 원문은 `신한리서치` 폴더에서 지우지 않는다(이름 변경·이동은 괜찮다).
 - 이 파일들의 원본은 대시보드 첨부 파일이다(장부가 커서 Drive 상태 파일에는 넣지 않는다). 다음 실행은 `Artifact` `action: "read"`, `path: "<asset id>"` 로 내려받아 이어 쓴다. asset id 는 `datasets/<id>` 문서의 `source.url` 에 있다.
 
 ## 5. 보고

@@ -52,6 +52,12 @@ Google Docs 편집 커넥터가 없어 Drive로 **새 파일 생성만** 한다.
 서브에이전트에 `references/extract-brief.md` 와 함께 `references/ledger-depth-brief.md` 를 준다.
 - **전망 장부:** 리포트마다 검증 가능한 전망을 한 줄씩(대상 유형·대상·지표·범위/점/방향/의견·단위·기간·검증 시점 `due`·기준값·원문·근거·검증 방법). 자산·국가·섹터·종목·매크로를 모두 담는다. 장부의 줄은 지우지 않는다. 같은 대상의 새 전망은 새 줄로 쌓고, 예전 줄은 `superseded_by` 로 잇는다.
 - **인뎁스 상세:** 본문 7쪽 이상이면 executive summary, 현재 상황(애널리스트 기술), 전망, 판단 근거, caveat 다섯 칸을 채운다.
+- **인뎁스 차트:** 숫자의 변동은 글로만 쓰지 않는다. 장부에서 시점별·항목별 수치를 골라 `depth_charts` 데이터(`{rid, chart, chart_title, chart_type, unit, series, x, x_order, value, low, high, note, fid}`)로 만든다. 대시보드는 이것을 '3. 전망' 아래에 그린다.
+  - 분기·연도 경로(금리, 스프레드, 정제마진, 유가) → `line`
+  - 연도·국가·기업 비교(EPS 성장률, 영업이익) → `bar`, 항목이 8개 넘거나 이름이 길면 `hbar`
+  - 밴드·시나리오(지수 범위, 상방·기본·하방) → `range`(범위) + `bar`(시나리오 점)
+  - 단위가 섞인 가정치·목표주가 묶음 → `table`
+  - 모든 점에 근거 장부 번호(`fid`)를 남긴다.
 
 ## 4-2. 외신 대조
 `python3 -I .claude/skills/market-research/scripts/fetch_news.py --hours 240 --out <scratchpad>/news.json` 과, 가능하면 예약 작업 "Morning news briefing" 결과를 읽는다. 아직 유효한 리포트의 전제·전망 가운데 외신이 다룬 것을 대조해 `{rids, topic, claim, now, change(변화|확인|새 변수|판단 보류), implication, source, url, date}` 로 남긴다. 외신 요약에 없는 수치는 지어내지 않는다.
@@ -66,7 +72,7 @@ Google Docs 편집 커넥터가 없어 Drive로 **새 파일 생성만** 한다.
 - 그대로 두는 경우: 새 리포트가 기존 판단을 반복하거나 다루지 않는 영역
 - 일간 자료(신한 생각, 주간 시황)만 들어온 날은 리포트 카드·장부·외신 대조만 추가하고 내러티브·섹터 표는 손대지 않는다.
 - 각 데이터 파일을 새로 만들어 `asset: true` 로 올리고 해당 `datasets/<id>` 의 `source.url`·`updated`·`edit` 를 `update` 한다. 페이지(`files/index.html`)는 새 탭·표가 필요할 때만 고친다.
-- 데이터 파일: `reports`, `points`, `forecasts`, `narrative`, `sectors`, `dissent`, `tp_changes`, `ledger`, `depth`, `news_check`
+- 데이터 파일: `reports`, `points`, `forecasts`, `narrative`, `sectors`, `dissent`, `tp_changes`, `ledger`, `depth`, `depth_meta`, `depth_charts`, `news_check`
 - 이 파일들의 원본은 대시보드 첨부 파일이다(장부가 커서 Drive 상태 파일에는 넣지 않는다). 다음 실행은 `Artifact` `action: "read"`, `path: "<asset id>"` 로 내려받아 이어 쓴다. asset id 는 `datasets/<id>` 문서의 `source.url` 에 있다.
 
 ## 5. 보고

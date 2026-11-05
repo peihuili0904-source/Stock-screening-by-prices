@@ -48,13 +48,26 @@ Google Docs 편집 커넥터가 없어 Drive로 **새 파일 생성만** 한다.
 6. `현황판` 폴더에 상태 파일 4개(`contentMimeType: "text/plain"`, `disableConversionToGoogleType: true`)와 현황판 3개(`text/markdown`)를 만든다. 상태 파일은 결과의 `fileSize` 가 로컬 바이트 수와 같은지 확인한다.
 7. `현황판 YYYY-MM-DD` 를 `read_file_content` 로 다시 읽어 표가 깨지지 않았는지 확인한다.
 
-## 4-1. 대시보드 갱신
-대시보드 https://claude.ai/artifact/Eun9PzUVEkMyLZqzYB8r2M (Dashboard 유형, 비공개)에 첨부 파일 7개가 있다. 새 리포트를 반영해 각 파일을 새로 만들어 `asset: true` 로 올리고, 해당 `datasets/<id>` 의 `source.url`·`updated`·`edit` 를 `update` 한다. 페이지(`files/index.html`)는 그대로 둔다.
-- `reports`: `{rid, rnum, date, type, title, analyst, market, stance(긍정|중립|부정), score, basis, note_url}` — 시각은 리포트가 다루는 시장에 대한 판단
-- `points`: `{key, rid, n, point}` — 리포트당 투자 포인트 3개
-- `forecasts`: `{key, asset, horizon, h(1 단기·2 1H·3 2H·4 연간·5 이후), forecast, rid}` — 원문 수치 그대로, 시계가 다른 밴드는 줄을 나눈다
-- `narrative`: `{chapter, title, body, rids}` — 전체를 관통하는 흐름을 장별로 다시 쓴다 (해석이므로 근거 rid 를 붙인다)
-- `sectors`, `dissent`, `tp_changes`: 상태 파일에서 만든다
+## 4-1. 전망 장부와 인뎁스 상세 (정독 단계에서 함께)
+서브에이전트에 `references/extract-brief.md` 와 함께 `references/ledger-depth-brief.md` 를 준다.
+- **전망 장부:** 리포트마다 검증 가능한 전망을 한 줄씩(대상 유형·대상·지표·범위/점/방향/의견·단위·기간·검증 시점 `due`·기준값·원문·근거·검증 방법). 자산·국가·섹터·종목·매크로를 모두 담는다. 장부의 줄은 지우지 않는다. 같은 대상의 새 전망은 새 줄로 쌓고, 예전 줄은 `superseded_by` 로 잇는다.
+- **인뎁스 상세:** 본문 7쪽 이상이면 executive summary, 현재 상황(애널리스트 기술), 전망, 판단 근거, caveat 다섯 칸을 채운다.
+
+## 4-2. 외신 대조
+`python3 -I .claude/skills/market-research/scripts/fetch_news.py --hours 240 --out <scratchpad>/news.json` 과, 가능하면 예약 작업 "Morning news briefing" 결과를 읽는다. 아직 유효한 리포트의 전제·전망 가운데 외신이 다룬 것을 대조해 `{rids, topic, claim, now, change(변화|확인|새 변수|판단 보류), implication, source, url, date}` 로 남긴다. 외신 요약에 없는 수치는 지어내지 않는다.
+
+## 4-3. 사후 검증
+매 실행마다 장부에서 `due` 가 지난 줄을 골라 실제 값을 찾는다(지수·금리·환율·주가: 공개 시세나 연결된 데이터 도구, 실적: 발표 자료). `actual`, `actual_date`, `verdict`(적중|부분 적중|빗나감|판단 불가), `verify_note` 를 채운다. 범위 전망은 범위 안이면 적중, 점 전망은 오차율을 적는다. 찾은 값의 출처를 남기고, 값을 못 찾으면 판단 불가로 둔다.
+
+## 4-4. 대시보드 갱신 (증분)
+대시보드 https://claude.ai/artifact/Eun9PzUVEkMyLZqzYB8r2M (Dashboard 유형, 비공개). 섹터·전략은 매일 바뀌지 않으므로 **새로 올린 리포트가 기존 내용을 대체할 때만 바꾸고, 그 밖에는 추가만 한다.**
+- 바꾸는 경우: 같은 대상의 의견·밴드·목표주가가 새 리포트로 바뀌었을 때(그 줄만 교체하고 변경 이력에 남김), 내러티브의 장이 새 리포트로 뒤집히거나 보강될 때(그 장만 고쳐 쓰고 근거 rid 를 더함)
+- 추가하는 경우: 새 리포트 카드·투자 포인트·장부 줄·인뎁스 상세·외신 대조
+- 그대로 두는 경우: 새 리포트가 기존 판단을 반복하거나 다루지 않는 영역
+- 일간 자료(신한 생각, 주간 시황)만 들어온 날은 리포트 카드·장부·외신 대조만 추가하고 내러티브·섹터 표는 손대지 않는다.
+- 각 데이터 파일을 새로 만들어 `asset: true` 로 올리고 해당 `datasets/<id>` 의 `source.url`·`updated`·`edit` 를 `update` 한다. 페이지(`files/index.html`)는 새 탭·표가 필요할 때만 고친다.
+- 데이터 파일: `reports`, `points`, `forecasts`, `narrative`, `sectors`, `dissent`, `tp_changes`, `ledger`, `depth`, `news_check`
+- 이 파일들의 원본은 대시보드 첨부 파일이다(장부가 커서 Drive 상태 파일에는 넣지 않는다). 다음 실행은 `Artifact` `action: "read"`, `path: "<asset id>"` 로 내려받아 이어 쓴다. asset id 는 `datasets/<id>` 문서의 `source.url` 에 있다.
 
 ## 5. 보고
 바뀐 하우스뷰(의견·목표주가 변경, 새 커버리지, 하우스 내 이견), 읽지 못했거나 잘린 리포트, 노트에 있는 계산값 등 원문에 없는 내용을 짧게 보고하고 현황판을 링크한다. 저장소에는 아무것도 커밋하지 않는다 (스킬 자체를 고친 경우만 예외).

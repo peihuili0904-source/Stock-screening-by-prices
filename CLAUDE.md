@@ -20,7 +20,7 @@
 
 ## 관심사 메모 (세션 간 기억)
 - 원본: 저장소의 `notes/interest-profile.md` — 자료를 받을 때마다 갱신하고 커밋·푸시한다.
-- Drive 사본: '외신 정리' 폴더의 Google 문서 「관심사 메모 (Claude)」.
+- Drive 사본: '외신 정리' 폴더의 Google 문서 「관심사 메모 (Claude)」 (file ID `1-5X0-xaqsIoIWrzr6kacjle_dWKtO0NFV5ZPJg2s7iY`).
   - Google Docs 편집 커넥터가 켜져 있으면 같은 문서를 갱신한다. 새 파일을 만들지 않는다.
   - 커넥터가 없으면 저장소 메모만 갱신하고, Drive 사본은 갱신하지 못했다고 사용자에게 알린다.
 - 새 세션을 시작하면 먼저 `notes/interest-profile.md`를 읽고 이어간다.

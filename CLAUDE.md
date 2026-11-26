@@ -2,6 +2,7 @@
 
 ## 자료 수집 규칙
 - 사용자는 Google Drive '외신 정리' 폴더(folder ID `1xFQZDpRZNOPnWueK4NADiMZJRHIsPeGJ`)에 자료를 올리거나, 채팅에 직접 붙여넣는다.
+- 주 작성 문서: Google 문서 「양식: 제목 / 출처 / 날짜 / 내용 / 원문」 (file ID `1bwJI3Qy40AL0RPQTOlY2aodC6BkopCSxTiNWUsjkSmo`). 날짜별 섹션으로 누적되며, 링크를 주면 새로 추가된 섹션을 읽는다. 이미지(표·그래프)는 docx로 내보내 `word/media`에서 꺼내 확인한다.
 - 자료 범위: 국내 증권사 리포트, 외국 증권사 리포트, 주식·경제 관련 관심 리포트, FT / Economist / WSJ 기사.
 - 사용자가 **직접 읽고** 필요한 부분을 불릿 포인트로 정리한 것이다.
 - 양식: **제목 / 출처 / 날짜 / 내용 / 원문 URL 혹은 파일**
